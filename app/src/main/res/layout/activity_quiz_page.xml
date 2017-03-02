@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_quiz_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="#FFF"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.maxim.alzheimer.QuizPage">
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <TextView
+            android:text="Katze"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/word"
+            android:textAlignment="center"
+            android:textSize="36sp"
+            tools:textColor="#000" />
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_controls"
+            style="?metaButtonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent"
+            tools:backgroundTint="#fff">
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5px"
+                android:id="@+id/btn_answer1"
+                android:layout_weight="1"
+                android:src="@drawable/hund"
+                android:scaleType="fitCenter"
+                android:onClick='answer("a")'
+                android:cropToPadding="false"
+                android:background="@android:color/transparent" />
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5px"
+                android:id="@+id/btn_answer2"
+                android:layout_weight="1"
+                android:src="@drawable/katze"
+                android:scaleType="fitCenter"
+                android:elevation="0dp"
+                android:onClick='answer("b")'
+                android:background="@android:color/transparent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

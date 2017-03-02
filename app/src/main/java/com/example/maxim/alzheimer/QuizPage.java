@@ -25,7 +25,7 @@ public class QuizPage extends AppCompatActivity {
     String text="";
     ImageButton ans1, ans2;
     TextView word;
-    //penis2
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

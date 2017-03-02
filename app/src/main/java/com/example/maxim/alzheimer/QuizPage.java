@@ -3,6 +3,7 @@ package com.example.maxim.alzheimer;
 import android.content.Context;
 import android.graphics.drawable.PictureDrawable;
 import android.media.Image;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,8 +43,14 @@ public class QuizPage extends AppCompatActivity {
                 pictures.add(fields[i].getName());
         }
 
-        Context context = getApplicationContext();
-        File mydir = context.getDir("AlzheimerTest", Context.MODE_PRIVATE); //Creating an internal dir;
+
+        String folder_main = "AlzheimerTestOrdner";
+
+        File f = new File(Environment.getExternalStorageDirectory(), folder_main);
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+
         //File fileWithinMyDir = new File(mydir, "myfile"); //Getting a file within the dir.
         //FileOutputStream out = new FileOutputStream(fileWithinMyDir); //Use the stream as usual to write into the file.
 

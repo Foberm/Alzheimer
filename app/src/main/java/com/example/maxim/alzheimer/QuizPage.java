@@ -88,6 +88,7 @@ public class QuizPage extends AppCompatActivity {
         }
         answers.add(temp);
 
+        //Tutorial
         if(answers.size() == StartPage.numberOfTutorials && !isRated){
             answers.clear();
             isRated = true;

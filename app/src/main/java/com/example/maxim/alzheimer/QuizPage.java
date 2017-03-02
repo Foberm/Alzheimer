@@ -22,8 +22,21 @@ public class QuizPage extends AppCompatActivity {
     String searchedWord = "";
     String main_directory = "AlzheimerTestOrdner";
     boolean isRated = false;
+    long time = 0;
     ImageButton btn_ans1, btn_ans2;
     TextView lbl_searchedWord;
+
+    Runnable runnable = new Runnable() {
+        public void run() {
+            synchronized (this) {
+                try {
+                    wait(StartPage.secondsPerQuestion * 1000);
+                    writeToAnswers(0);
+                } catch (Exception e) {
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +63,7 @@ public class QuizPage extends AppCompatActivity {
         //FileOutputStream out = new FileOutputStream(fileWithinMyDir); //Use the stream as usual to write into the file.
 
         newWord();
-        Runnable runnable = new Runnable() {
-            public void run() {
-                synchronized (this) {
-                    try {
-                        wait(StartPage.secondsPerQuestion * 1000);
-                        writeToAnswers(0);
-                    } catch (Exception e) {
-                    }
-                }
-            }
-        };
-        Thread mythread = new Thread(runnable);
-        mythread.start();
+
     }
 
 
@@ -79,11 +80,11 @@ public class QuizPage extends AppCompatActivity {
                 break;
             case 1:     //richtig
                 temp[1] = "Richtig";
-                temp[2] = "" + 0;
+                temp[2] = "" + (System.currentTimeMillis() - time / 1000);
                 break;
             case 2:     //falsch
                 temp[1] = "Falsch";
-                temp[2] = "" + 0;
+                temp[2] = "" + (System.currentTimeMillis() - time / 1000);
                 break;
         }
         answers.add(temp);
@@ -133,6 +134,10 @@ public class QuizPage extends AppCompatActivity {
             used.add(pic2);
         }
         Log.d("newWord", "nein!");
+
+        Thread mythread = new Thread(runnable);
+        mythread.start();
+        time = System.currentTimeMillis();
     }
 
     public void answer (String answer) {

@@ -10,8 +10,9 @@ import android.widget.EditText;
 public class StartPage extends AppCompatActivity {
 
     public static String username = "Standard Username";
-    public static int numberOfQuestions=10;
-    public static int secondsPerQuestion=15;
+    public static int numberOfQuestions = 10;
+    public static int secondsPerQuestion = 15;
+    public static int numberOfTutorials = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

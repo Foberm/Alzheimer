@@ -65,31 +65,34 @@ public class QuizPage extends AppCompatActivity {
         mythread.start();
     }
 
-    //-1 beenden
-    //0 skippen
-    //1 richtig
-    //2 falsch
+
     public void writeToAnswers(int state){
         String[] temp = new String[3];
         temp[0] = searchedWord;
 
         switch (state) {
-            case -1:
+            case -1:    //beenden
                 break;
-            case 0:
+            case 0:     //skippen
                 temp[1] = "NB";
                 temp[2] = "" + 0;
                 break;
-            case 1:
+            case 1:     //richtig
                 temp[1] = "Richtig";
                 temp[2] = "" + 0;
                 break;
-            case 2:
+            case 2:     //falsch
                 temp[1] = "Falsch";
                 temp[2] = "" + 0;
                 break;
         }
         answers.add(temp);
+
+        if(answers.size() == StartPage.numberOfTutorials && !isRated){
+            answers.clear();
+            isRated = true;
+        }
+
         newWord();
     }
     int random(){
@@ -121,10 +124,12 @@ public class QuizPage extends AppCompatActivity {
         if(correctAnswer) {
             lbl_searchedWord.setText("" + pictures.get(pic1).toUpperCase());
             searchedWord = pictures.get(pic1);
+            used.add(pic1);
         }
         else{
             lbl_searchedWord.setText("" + pictures.get(pic2).toUpperCase());
             searchedWord = pictures.get(pic2);
+            used.add(pic2);
         }
         Log.d("newWord", "nein!");
     }

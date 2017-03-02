@@ -1,21 +1,16 @@
 package com.example.maxim.alzheimer;
 
 import android.content.Context;
-import android.graphics.drawable.PictureDrawable;
-import android.media.Image;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -24,17 +19,19 @@ public class QuizPage extends AppCompatActivity {
     public List<String> pictures = new ArrayList<String>();
     public List<String[]> answers = new ArrayList<String[]>();
     public List<Integer> used = new ArrayList<Integer>();
-    String text="";
-    ImageButton ans1, ans2;
-    TextView word;
+    String searchedWord = "";
+    String main_directory = "AlzheimerTestOrdner";
+    boolean isRated = false;
+    ImageButton btn_ans1, btn_ans2;
+    TextView lbl_searchedWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_page);
-         ans1 = (ImageButton) findViewById(R.id.btn_answer1);
-         ans2 = (ImageButton) findViewById(R.id.btn_answer2);
-         word = (TextView) findViewById(R.id.word);
+         btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
+         btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
+         lbl_searchedWord = (TextView) findViewById(R.id.label_word);
 
         final Field[] fields = R.drawable.class.getDeclaredFields();
         String regex ="[a-z]+";
@@ -44,9 +41,7 @@ public class QuizPage extends AppCompatActivity {
         }
 
 
-        String folder_main = "AlzheimerTestOrdner";
-
-        File f = new File(Environment.getExternalStorageDirectory(), folder_main);
+        File f = new File(Environment.getExternalStorageDirectory(), main_directory);
         if (!f.exists()) {
             f.mkdirs();
         }
@@ -60,7 +55,7 @@ public class QuizPage extends AppCompatActivity {
                 synchronized (this) {
                     try {
                         wait(StartPage.secondsPerQuestion * 1000);
-                        inBetween(0);
+                        writeToAnswers(0);
                     } catch (Exception e) {
                     }
                 }
@@ -69,16 +64,33 @@ public class QuizPage extends AppCompatActivity {
         Thread mythread = new Thread(runnable);
         mythread.start();
     }
+
     //-1 beenden
     //0 skippen
     //1 richtig
     //2 falsch
-    public void inBetween(int state){
-        if(state==0) {
-            String[] temp = {text, "NB", "" + 0};
-            answers.add(temp);
-            newWord();
+    public void writeToAnswers(int state){
+        String[] temp = new String[3];
+        temp[0] = searchedWord;
+
+        switch (state) {
+            case -1:
+                break;
+            case 0:
+                temp[1] = "NB";
+                temp[2] = "" + 0;
+                break;
+            case 1:
+                temp[1] = "Richtig";
+                temp[2] = "" + 0;
+                break;
+            case 2:
+                temp[1] = "Falsch";
+                temp[2] = "" + 0;
+                break;
         }
+        answers.add(temp);
+        newWord();
     }
     int random(){
         Random rand=new Random();
@@ -95,24 +107,24 @@ public class QuizPage extends AppCompatActivity {
         Log.d("hallo", "in Se Mehod");
         Random rand = new Random();
         int pic1= random(), pic2 = random();
-        ans1 = (ImageButton) findViewById(R.id.btn_answer1);
-        ans2 = (ImageButton) findViewById(R.id.btn_answer2);
-        Context contextAns1 = ans1.getContext();
+        btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
+        btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
+        Context contextAns1 = btn_ans1.getContext();
         int idAns1 = contextAns1.getResources().getIdentifier(pictures.get(pic1), "drawable", contextAns1.getPackageName());
-        ans1.setImageResource(idAns1);
-        Context contextAns2 = ans2.getContext();
+        btn_ans1.setImageResource(idAns1);
+        Context contextAns2 = btn_ans2.getContext();
         int idAns2 = contextAns1.getResources().getIdentifier(pictures.get(pic2), "drawable", contextAns2.getPackageName());
-        ans2.setImageResource(idAns2);
+        btn_ans2.setImageResource(idAns2);
 
 
         boolean correctAnswer =  rand.nextBoolean();
         if(correctAnswer) {
-            word.setText("" + pictures.get(pic1).toUpperCase());
-            text=pictures.get(pic1);
+            lbl_searchedWord.setText("" + pictures.get(pic1).toUpperCase());
+            searchedWord = pictures.get(pic1);
         }
         else{
-            word.setText("" + pictures.get(pic2).toUpperCase());
-            text=pictures.get(pic2);
+            lbl_searchedWord.setText("" + pictures.get(pic2).toUpperCase());
+            searchedWord = pictures.get(pic2);
         }
         Log.d("newWord", "nein!");
     }

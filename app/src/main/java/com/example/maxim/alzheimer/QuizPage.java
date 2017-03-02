@@ -103,7 +103,6 @@ public class QuizPage extends AppCompatActivity {
         do{
             r = rand.nextInt(pictures.size());
         }while(used.contains(r));
-        used.add(r);
         return r;
     }
 

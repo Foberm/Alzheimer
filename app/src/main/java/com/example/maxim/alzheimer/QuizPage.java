@@ -1,6 +1,10 @@
 package com.example.maxim.alzheimer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,7 +24,6 @@ public class QuizPage extends AppCompatActivity {
     public List<String[]> answers = new ArrayList<String[]>();
     public List<Integer> used = new ArrayList<Integer>();
     String searchedWord = "";
-    String main_directory = "AlzheimerTestOrdner";
     boolean isRated = false;
     long time = 0;
     ImageButton btn_ans1, btn_ans2;
@@ -53,14 +56,11 @@ public class QuizPage extends AppCompatActivity {
                 pictures.add(fields[i].getName());
         }
 
-
-        File f = new File(Environment.getExternalStorageDirectory(), main_directory);
-        if (!f.exists()) {
-            f.mkdirs();
-        }
-
-        //File fileWithinMyDir = new File(mydir, "myfile"); //Getting a file within the dir.
-        //FileOutputStream out = new FileOutputStream(fileWithinMyDir); //Use the stream as usual to write into the file.
+        /*
+        String photoPath = Environment.getExternalStorageDirectory()+ "/" + StartPage.main_directory + "/Almost.jpg";
+        Drawable d = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(photoPath));
+        btn_ans1.setImageDrawable(d);
+        */
 
         newWord();
 

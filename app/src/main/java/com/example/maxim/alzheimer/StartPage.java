@@ -2,10 +2,13 @@ package com.example.maxim.alzheimer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import java.io.File;
 
 public class StartPage extends AppCompatActivity {
 
@@ -13,12 +16,18 @@ public class StartPage extends AppCompatActivity {
     public static int numberOfQuestions = 10;
     public static int secondsPerQuestion = 15;
     public static int numberOfTutorials = 5;
+    public static String main_directory = "AlzheimerTestOrdner";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.start_page);
+
+        File f = new File(Environment.getExternalStorageDirectory(), main_directory);
+        if (!f.exists()) {
+            f.mkdirs();
+        }
 
         findViewById(R.id.beginnen).setOnClickListener(new View.OnClickListener() {
             @Override

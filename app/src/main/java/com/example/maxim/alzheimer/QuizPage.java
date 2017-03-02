@@ -58,7 +58,7 @@ public class QuizPage extends AppCompatActivity {
         findViewById(R.id.btn_answer1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(searchedButton ==1)writeToAnswers(1);
+                if(searchedButton == 1)writeToAnswers(1);
                 else writeToAnswers(2);
             }
         });
@@ -66,7 +66,7 @@ public class QuizPage extends AppCompatActivity {
         findViewById(R.id.btn_answer2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(searchedButton ==2)writeToAnswers(1);
+                if(searchedButton == 2)writeToAnswers(1);
                 else writeToAnswers(2);
             }
         });
@@ -114,6 +114,10 @@ public class QuizPage extends AppCompatActivity {
             mythread.interrupt();
         }
         else newWord();
+    }
+
+    public void writeToOutputFile() {
+
     }
 
 

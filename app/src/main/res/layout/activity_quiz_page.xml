@@ -48,7 +48,6 @@
                 android:layout_weight="1"
                 android:src="@drawable/hund"
                 android:scaleType="fitCenter"
-                android:onClick='answer("a")'
                 android:cropToPadding="false"
                 android:background="@android:color/transparent" />
 
@@ -61,7 +60,6 @@
                 android:src="@drawable/katze"
                 android:scaleType="fitCenter"
                 android:elevation="0dp"
-                android:onClick='answer("b")'
                 android:background="@android:color/transparent" />
 
         </LinearLayout>

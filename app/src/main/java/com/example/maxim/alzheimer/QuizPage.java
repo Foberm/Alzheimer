@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,8 +26,7 @@ public class QuizPage extends AppCompatActivity {
     String text="";
     ImageButton ans1, ans2;
     TextView word;
-    //penis2
-    //da?
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +34,19 @@ public class QuizPage extends AppCompatActivity {
          ans1 = (ImageButton) findViewById(R.id.btn_answer1);
          ans2 = (ImageButton) findViewById(R.id.btn_answer2);
          word = (TextView) findViewById(R.id.word);
+
         final Field[] fields = R.drawable.class.getDeclaredFields();
         String regex ="[a-z]+";
         for (int i = 0; i < fields.length; i++) {
             if(fields[i].getName().matches(regex))
                 pictures.add(fields[i].getName());
         }
+
+        Context context = getApplicationContext();
+        File mydir = context.getDir("AlzheimerTest", Context.MODE_PRIVATE); //Creating an internal dir;
+        //File fileWithinMyDir = new File(mydir, "myfile"); //Getting a file within the dir.
+        //FileOutputStream out = new FileOutputStream(fileWithinMyDir); //Use the stream as usual to write into the file.
+
         newWord();
         Runnable runnable = new Runnable() {
             public void run() {

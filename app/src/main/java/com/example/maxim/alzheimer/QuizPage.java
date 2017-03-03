@@ -2,6 +2,10 @@ package com.example.maxim.alzheimer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,12 +54,6 @@ public class QuizPage extends AppCompatActivity {
         btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
         btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
         lbl_searchedWord = (TextView) findViewById(R.id.label_word);
-
-        /*
-        String photoPath = Environment.getExternalStorageDirectory()+ "/" + StartPage.main_directory + "/Almost.jpg";
-        Drawable d = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(photoPath));
-        btn_ans1.setImageDrawable(d);
-        */
 
         findViewById(R.id.btn_answer1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +116,7 @@ public class QuizPage extends AppCompatActivity {
         if(answers.size() == StartPage.numberOfQuestions && isRated){
             mythread.interrupt();
             writeToOutputFile();
-            isRated = false;
+            resetAll();
             startActivity(new Intent(QuizPage.this, StartPage.class));
         }
         else newWord();
@@ -152,6 +150,13 @@ public class QuizPage extends AppCompatActivity {
         return buf.toString();
     }
 
+    public void resetAll() {
+        StartPage.pictures.clear();
+        answers.clear();
+        used.clear();
+        isRated = false;
+    }
+
     Thread mythread = new Thread(runnable);
     public void newWord() {
 
@@ -168,13 +173,24 @@ public class QuizPage extends AppCompatActivity {
 
         btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
         btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
+
+        //Set the chosen Pictures to the ImageButtons
+        String path_btn_ans1 = Environment.getExternalStorageDirectory()+ "/" + StartPage.main_directory + "/" + StartPage.pictures.get(pic1) +".jpg";
+        String path_btn_ans2 = Environment.getExternalStorageDirectory()+ "/" + StartPage.main_directory + "/" + StartPage.pictures.get(pic2) +".jpg";
+        Drawable draw_btn_ans1 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans1));
+        Drawable draw_btn_ans2 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans2));
+        btn_ans1.setImageDrawable(draw_btn_ans1);
+        btn_ans2.setImageDrawable(draw_btn_ans2);
+
+
+        /*
         Context contextAns1 = btn_ans1.getContext();
         int idAns1 = contextAns1.getResources().getIdentifier(StartPage.pictures.get(pic1), "drawable", contextAns1.getPackageName());
         btn_ans1.setImageResource(idAns1);
         Context contextAns2 = btn_ans2.getContext();
         int idAns2 = contextAns1.getResources().getIdentifier(StartPage.pictures.get(pic2), "drawable", contextAns2.getPackageName());
         btn_ans2.setImageResource(idAns2);
-
+        */
 
         boolean correctAnswer = rand.nextBoolean();
         if (correctAnswer) {

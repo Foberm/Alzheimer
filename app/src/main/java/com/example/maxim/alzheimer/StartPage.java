@@ -59,7 +59,7 @@ public class StartPage extends AppCompatActivity {
         }
 
         //Let User know the maximum amount of Questions possible
-        ((EditText)findViewById(R.id.numOfQuestionsInput)).setHint("Anzahl Fragen.. (Standard: 10, Maximal: " + (pictures.size()-1) + ")");
+        ((EditText)findViewById(R.id.numOfQuestionsInput)).setHint("Anzahl Fragen.. (Standard: 10, Maximal: " + (pictures.size()-1 -numberOfTutorials) + ")");
 
         //OnClick for "Beginnen"-Button
         findViewById(R.id.beginnen).setOnClickListener(new View.OnClickListener() {
@@ -74,8 +74,8 @@ public class StartPage extends AppCompatActivity {
 
                 if(!anzahl.isEmpty()) {
                     int a = Integer.parseInt(anzahl);
-                    if(a > pictures.size()-1)
-                        numberOfQuestions = pictures.size()-1;
+                    if(a > pictures.size()-1 -numberOfTutorials)
+                        numberOfQuestions = pictures.size()-1 -numberOfTutorials;
                     else
                         numberOfQuestions = a;
                 }

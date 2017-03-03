@@ -30,11 +30,12 @@ public class QuizPage extends AppCompatActivity {
 
     Runnable runnable = new Runnable() {
         public void run() {
-            String sW = searchedWord;
             synchronized (this) {
                 try {
                     wait(StartPage.secondsPerQuestion * 1000);
-                    if(sW.equals(searchedWord))writeToAnswers(0);
+                    Log.d("thread", "time up");
+                    writeToAnswers(0);
+                    mythread.interrupt();
                 }
                 catch (Exception e) {}
             }
@@ -79,6 +80,9 @@ public class QuizPage extends AppCompatActivity {
     public void writeToAnswers(int state) {
         String[] tmp = new String[3];
         tmp[0] = searchedWord;
+        if(state != 0)
+            mythread.interrupt();
+
         switch (state) {
             case -1:    //beenden
                 while (answers.size()<StartPage.numberOfQuestions-1){
@@ -110,6 +114,7 @@ public class QuizPage extends AppCompatActivity {
             answers.clear();
             isRated = true;
         }
+
         if(answers.size() == StartPage.numberOfQuestions && isRated){
             mythread.interrupt();
             writeToOutputFile();
@@ -149,7 +154,6 @@ public class QuizPage extends AppCompatActivity {
 
     Thread mythread = new Thread(runnable);
     public void newWord() {
-        mythread.interrupt();
 
         Random rand = new Random();
         int pic1 = 0;

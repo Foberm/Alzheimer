@@ -53,6 +53,8 @@ public class StartPage extends AppCompatActivity {
                 if(!anzahl.isEmpty()) {
                     int a = Integer.parseInt(anzahl);
                     if(a > pictures.size()-1)
+                        numberOfQuestions = pictures.size()-1;
+                    else
                         numberOfQuestions = a;
                 }
                 if(!zeit.isEmpty())

@@ -113,6 +113,7 @@ public class QuizPage extends AppCompatActivity {
         if(answers.size() == StartPage.numberOfQuestions && isRated){
             mythread.interrupt();
             writeToOutputFile();
+            isRated = false;
             startActivity(new Intent(QuizPage.this, StartPage.class));
         }
         else newWord();
@@ -174,11 +175,13 @@ public class QuizPage extends AppCompatActivity {
         boolean correctAnswer = rand.nextBoolean();
         if (correctAnswer) {
             lbl_searchedWord.setText("" + StartPage.pictures.get(pic1).toUpperCase());
+            if(!isRated) lbl_searchedWord.append(", Tutorial");
             searchedWord = StartPage.pictures.get(pic1);
             searchedButton = 1;
             used.add(pic1);
         } else {
             lbl_searchedWord.setText("" + StartPage.pictures.get(pic2).toUpperCase());
+            if(!isRated) lbl_searchedWord.append(", Tutorial");
             searchedWord = StartPage.pictures.get(pic2);
             used.add(pic2);
             searchedButton = 2;

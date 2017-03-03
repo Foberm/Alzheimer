@@ -1,10 +1,12 @@
 package com.example.maxim.alzheimer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,8 +15,15 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.lang.reflect.Field;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -102,7 +111,7 @@ public class QuizPage extends AppCompatActivity {
             case 2:     //falsch
                 Log.d("switch", "falsch");
                 tmp[1] = "Falsch";
-                tmp[2] = "" + ((System.currentTimeMillis() - time) / 100);
+                tmp[2] = "" + ((System.currentTimeMillis() - time) / 1000);
                 break;
         }
         answers.add(tmp);
@@ -115,6 +124,7 @@ public class QuizPage extends AppCompatActivity {
 
         if(answers.size() == StartPage.numberOfQuestions && isRated){
             mythread.interrupt();
+            writeToConsole();
             writeToOutputFile();
             resetAll();
             startActivity(new Intent(QuizPage.this, StartPage.class));
@@ -122,7 +132,7 @@ public class QuizPage extends AppCompatActivity {
         else newWord();
     }
 
-    public void writeToOutputFile() {
+    public void writeToConsole() {
         String out = StartPage.username+": \n";
         int[] len=new int[answers.size()];
         for(int i=0;i<answers.size();i++) {
@@ -148,6 +158,42 @@ public class QuizPage extends AppCompatActivity {
             buf.append(val);
         }
         return buf.toString();
+    }
+
+    public void writeToOutputFile(){
+        try {
+            File path = Environment.getExternalStorageDirectory();
+            File f = new File(path.getAbsolutePath() + "/" + StartPage.main_directory);
+            File b = new File(f, StartPage.outputFileName);
+            DateFormat dateFormat = new SimpleDateFormat("dd.mm.yyy");
+            Date currentDate = new Date();
+
+            FileOutputStream fOut = new FileOutputStream(b, true);
+            OutputStreamWriter osw = new OutputStreamWriter(fOut);
+
+            osw.append('\n');
+            osw.append(StartPage.username);
+            osw.append(';');
+            osw.append(dateFormat.format(currentDate));
+            osw.append(';');
+            for(int i = 0; i < answers.size(); i++){
+                for(int j = 0; j < answers.get(i).length; j++){
+                    osw.append(answers.get(i)[j]);
+                    if(j < answers.get(i).length-1) osw.append(' ');
+                }
+                if(i < answers.size()-1) osw.append(';');
+            }
+            osw.flush();
+            fOut.getFD().sync();
+            osw.close();
+
+            MediaScannerConnection.scanFile(this, new String[]{b.getAbsolutePath()}, null, null);
+
+        }
+        catch(IOException e)
+        {
+            Log.e("o", e.getMessage());
+        }
     }
 
     public void resetAll() {

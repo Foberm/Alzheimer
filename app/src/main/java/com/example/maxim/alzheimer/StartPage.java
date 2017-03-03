@@ -20,7 +20,7 @@ public class StartPage extends AppCompatActivity {
     public static int secondsPerQuestion = 15;
     public static int numberOfTutorials = 1;
     public static String main_directory = "AlzheimerTestOrdner";
-    public static String outputFileName = "Auswertung.csv";
+    public static String outputFileName = "a.txt";
     public static List<String> pictures = new ArrayList<String>();
 
     @Override

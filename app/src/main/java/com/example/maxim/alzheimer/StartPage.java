@@ -47,7 +47,7 @@ public class StartPage extends AppCompatActivity {
         findViewById(R.id.beginnen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //username = ((EditText)findViewById(R.id.numOfQuestionsInput)).getText().toString();
+                username = ((EditText)findViewById(R.id.nameInput)).getText().toString();
                 String anzahl = ((EditText)findViewById(R.id.numOfQuestionsInput)).getText().toString();
                 String zeit = ((EditText)findViewById(R.id.timePerQuestionInput)).getText().toString();
                 if(!anzahl.isEmpty()) {
@@ -57,6 +57,10 @@ public class StartPage extends AppCompatActivity {
                 }
                 if(!zeit.isEmpty())
                     secondsPerQuestion = Integer.parseInt(zeit);
+
+                Log.d("name", username);
+                Log.d("anzahl", anzahl);
+                Log.d("zeit", zeit);
                 startActivity(new Intent(StartPage.this, QuizPage.class));
             }
         });

@@ -95,7 +95,8 @@ public class QuizPage extends AppCompatActivity {
 
     public void writeToAnswers(int state) {
         String[] tmp = new String[3];
-        tmp[0] = searchedWord;
+        String searchedWordUpperCase = searchedWord.substring(0, 1).toUpperCase() + searchedWord.substring(1);
+        tmp[0] = searchedWordUpperCase;
 
         if(state != 0)
             mythread.interrupt();
@@ -137,7 +138,7 @@ public class QuizPage extends AppCompatActivity {
 
         if(answers.size() == StartPage.numberOfQuestions && isRated || state == -1){
             mythread.interrupt();
-            writeToConsole();
+            //writeToConsole();
             writeToOutputFile();
             resetAll();
             startActivity(new Intent(QuizPage.this, StartPage.class));
@@ -257,13 +258,13 @@ public class QuizPage extends AppCompatActivity {
         boolean correctAnswer = rand.nextBoolean();
         if (correctAnswer) {
             lbl_searchedWord.setText("" + StartPage.pictures.get(pic1).toUpperCase());
-            if(!isRated) lbl_searchedWord.append(", Tutorial");
+            if(!isRated) lbl_searchedWord.append(" [T]");
             searchedWord = StartPage.pictures.get(pic1);
             searchedButton = 1;
             used.add(pic1);
         } else {
             lbl_searchedWord.setText("" + StartPage.pictures.get(pic2).toUpperCase());
-            if(!isRated) lbl_searchedWord.append(", Tutorial");
+            if(!isRated) lbl_searchedWord.append(" [T]");
             searchedWord = StartPage.pictures.get(pic2);
             used.add(pic2);
             searchedButton = 2;

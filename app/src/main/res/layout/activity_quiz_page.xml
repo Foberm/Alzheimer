@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_quiz_page"
     android:layout_width="match_parent"
@@ -14,69 +14,64 @@
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:text="Katze"
-                android:layout_width="match_parent"
-                android:layout_height="63dp"
-                android:id="@+id/label_word"
-                android:textAlignment="center"
-                android:textSize="48sp"
-                tools:textColor="#000" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@android:color/transparent"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent"
-            tools:backgroundTint="#fff">
-
-            <ImageButton
-                android:layout_height="275dp"
-                android:layout_margin="5px"
-                android:id="@+id/btn_answer1"
-                android:layout_weight="1"
-                android:src="@drawable/hund"
-                android:scaleType="fitCenter"
-                android:cropToPadding="false"
-                android:background="@android:color/transparent"
-                android:layout_width="0dp" />
-
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="275dp"
-                android:layout_margin="5px"
-                android:id="@+id/btn_answer2"
-                android:layout_weight="1"
-                android:src="@drawable/katze"
-                android:scaleType="fitCenter"
-                android:elevation="0dp"
-                android:background="@android:color/transparent" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
     <Button
         android:text="X"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:id="@+id/btn_cancel" />
 
-</FrameLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:text="Katze"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_word"
+            android:textAlignment="center"
+            android:textSize="72dp"
+            tools:textColor="#000" />
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_controls"
+            style="?metaButtonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"
+            tools:backgroundTint="#fff">
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:id="@+id/btn_answer1"
+                android:layout_weight="1"
+                android:src="@drawable/hund"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent" />
+
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:id="@+id/btn_answer2"
+                android:layout_weight="1"
+                android:src="@drawable/katze"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -23,8 +23,10 @@ import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class QuizPage extends AppCompatActivity {
@@ -80,6 +82,13 @@ public class QuizPage extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                writeToAnswers(-1);
+            }
+        });
+
         newWord();
     }
 
@@ -87,21 +96,25 @@ public class QuizPage extends AppCompatActivity {
     public void writeToAnswers(int state) {
         String[] tmp = new String[3];
         tmp[0] = searchedWord;
+
         if(state != 0)
             mythread.interrupt();
 
         switch (state) {
             case -1:    //beenden
-                while (answers.size()<StartPage.numberOfQuestions-1){
-                    String[] tmp2 ={"NB","NB","0"};
+                tmp[1] = "Abbruch";
+                tmp[2] = "-";
+                /*
+                while (answers.size() < StartPage.numberOfQuestions-1){
+                    String[] tmp2 ={"NB","NB","-"};
                     answers.add(tmp2);
                 }
-                tmp[1] = "NB";
-                tmp[2] = "" + 0;
+                */
+
                 break;
             case 0:     //skippen
                 tmp[1] = "NB";
-                tmp[2] = "" + 0;
+                tmp[2] = "0";
                 break;
             case 1:     //richtig
                 Log.d("switch", "richtig");
@@ -122,7 +135,7 @@ public class QuizPage extends AppCompatActivity {
             isRated = true;
         }
 
-        if(answers.size() == StartPage.numberOfQuestions && isRated){
+        if(answers.size() == StartPage.numberOfQuestions && isRated || state == -1){
             mythread.interrupt();
             writeToConsole();
             writeToOutputFile();
@@ -165,8 +178,11 @@ public class QuizPage extends AppCompatActivity {
             File path = Environment.getExternalStorageDirectory();
             File f = new File(path.getAbsolutePath() + "/" + StartPage.main_directory);
             File b = new File(f, StartPage.outputFileName);
-            DateFormat dateFormat = new SimpleDateFormat("dd.mm.yyy");
-            Date currentDate = new Date();
+
+            Calendar c = Calendar.getInstance();
+            int date = c.get(Calendar.DATE);
+            int month = c.get(Calendar.MONTH) +1;
+            int year = c.get(Calendar.YEAR);
 
             FileOutputStream fOut = new FileOutputStream(b, true);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
@@ -174,7 +190,7 @@ public class QuizPage extends AppCompatActivity {
             osw.append('\n');
             osw.append(StartPage.username);
             osw.append(';');
-            osw.append(dateFormat.format(currentDate));
+            osw.append(date + "." + month + "." + year);
             osw.append(';');
             for(int i = 0; i < answers.size(); i++){
                 for(int j = 0; j < answers.get(i).length; j++){

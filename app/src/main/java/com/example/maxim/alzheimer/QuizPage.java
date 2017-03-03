@@ -119,16 +119,32 @@ public class QuizPage extends AppCompatActivity {
     }
 
     public void writeToOutputFile() {
-        String out = "\n" + StartPage.username;
-        for(int i=0;i<3;i++){
+        String out = StartPage.username+": \n";
+        int[] len=new int[answers.size()];
+        for(int i=0;i<answers.size();i++) {
             for (String[] an : answers) {
-              out += an[i] + "      ";
+                if (an[0].length() > an[1].length()) len[i] = an[0].length();
+                else len[i] = an[1].length();
+            }
+        }
+        for(int i=0;i<3;i++){
+            int j=0;
+            for (String[] an : answers) {
+              out += an[i] + repeat(" ", len[j]-an[i].length())+"   ";
+              j++;
             }
             out += "\n";
         }
         Log.d("out", out);
     }
 
+    public static String repeat(String val, int count){
+        StringBuilder buf = new StringBuilder(val.length() * count);
+        while (count-- > 0) {
+            buf.append(val);
+        }
+        return buf.toString();
+    }
 
     Thread mythread = new Thread(runnable);
     public void newWord() {

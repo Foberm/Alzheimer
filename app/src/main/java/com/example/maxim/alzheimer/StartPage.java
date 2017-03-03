@@ -47,7 +47,8 @@ public class StartPage extends AppCompatActivity {
         findViewById(R.id.beginnen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                username = ((EditText)findViewById(R.id.nameInput)).getText().toString();
+                String preusername = ((EditText)findViewById(R.id.nameInput)).getText().toString();
+                if(!preusername.isEmpty())username=preusername;
                 String anzahl = ((EditText)findViewById(R.id.numOfQuestionsInput)).getText().toString();
                 String zeit = ((EditText)findViewById(R.id.timePerQuestionInput)).getText().toString();
                 if(!anzahl.isEmpty()) {

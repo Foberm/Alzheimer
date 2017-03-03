@@ -1,6 +1,7 @@
 package com.example.maxim.alzheimer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -94,12 +95,12 @@ public class QuizPage extends AppCompatActivity {
             case 1:     //richtig
                 Log.d("switch", "richtig");
                 tmp[1] = "Richtig";
-                tmp[2] = "" + (System.currentTimeMillis() - time / 1000);
+                tmp[2] = "" + ((System.currentTimeMillis() - time) / 1000);
                 break;
             case 2:     //falsch
                 Log.d("switch", "falsch");
                 tmp[1] = "Falsch";
-                tmp[2] = "" + (System.currentTimeMillis() - time / 1000);
+                tmp[2] = "" + ((System.currentTimeMillis() - time) / 100);
                 break;
         }
         answers.add(tmp);
@@ -110,14 +111,22 @@ public class QuizPage extends AppCompatActivity {
             isRated = true;
         }
         if(answers.size() == StartPage.numberOfQuestions && isRated){
-            lbl_searchedWord.setText("Fragenanzahl erreicht");
             mythread.interrupt();
+            writeToOutputFile();
+            startActivity(new Intent(QuizPage.this, StartPage.class));
         }
         else newWord();
     }
 
     public void writeToOutputFile() {
-
+        String out = "\n" + StartPage.username;
+        for(int i=0;i<3;i++){
+            for (String[] an : answers) {
+              out += an[i] + "      ";
+            }
+            out += "\n";
+        }
+        Log.d("out", out);
     }
 
 

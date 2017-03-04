@@ -15,10 +15,10 @@ import java.util.List;
 
 public class StartPage extends AppCompatActivity {
 
-    public static String username = "Unbekannt";
-    public static int numberOfQuestions = 3;
+    public static String username = "Nicht angeben";
+    public static int numberOfQuestions = 10;
     public static int secondsPerQuestion = 30;
-    public static int numberOfTutorials = 1;
+    public static int numberOfTutorials = 3;
     public static String main_directory = "Alzheimer-Studie";
     public static String outputFileName = "Auswertung_Alzheimer-Studie.csv";
     public static List<String> pictures = new ArrayList<String>();

@@ -217,6 +217,10 @@ public class QuizPage extends AppCompatActivity {
         answers.clear();
         used.clear();
         isRated = false;
+        //Reset to default
+        StartPage.numberOfQuestions = 10;
+        StartPage.secondsPerQuestion = 30;
+        StartPage.username = "Nicht angegeben";
     }
 
     Timer t= new Timer();

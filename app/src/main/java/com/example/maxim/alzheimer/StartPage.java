@@ -31,6 +31,7 @@ public class StartPage extends AppCompatActivity {
 
         //Creating Directory if doesn't exist
         File directory = new File(Environment.getExternalStorageDirectory(), main_directory);
+        Log.d("dir", Environment.getExternalStorageDirectory().toString());
         if (!directory.exists()) {
             directory.mkdirs();
         }

@@ -1,12 +1,11 @@
 package com.example.maxim.alzheimer;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,16 +16,12 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class QuizPage extends AppCompatActivity {
@@ -43,19 +38,22 @@ public class QuizPage extends AppCompatActivity {
     int searchedButton = 0;
     String searchedWord = "";
 
-    Runnable runnable = new Runnable() {
-        public void run() {
-            synchronized (this) {
-                try {
-                    wait(StartPage.secondsPerQuestion * 1000);
-                    Log.d("thread", "time up");
-                    writeToAnswers(0);
-                    mythread.interrupt();
-                }
-                catch (Exception e) {}
+    private class Timer extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                Thread.sleep(1000 * StartPage.secondsPerQuestion);
+            } catch (InterruptedException e) {
+                Thread.interrupted();
             }
+            return "Executed";
         }
-    };
+        @Override
+        protected void onPostExecute(String result) {
+            writeToAnswers(0);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +86,9 @@ public class QuizPage extends AppCompatActivity {
                 writeToAnswers(-1);
             }
         });
-
         newWord();
+        Timer t= new Timer();
+        t.execute("");
     }
 
 
@@ -99,7 +98,7 @@ public class QuizPage extends AppCompatActivity {
         tmp[0] = searchedWordUpperCase;
 
         if(state != 0)
-            mythread.interrupt();
+            t.cancel(true);
 
         switch (state) {
             case -1:    //beenden
@@ -137,7 +136,7 @@ public class QuizPage extends AppCompatActivity {
         }
 
         if(answers.size() == StartPage.numberOfQuestions && isRated || state == -1){
-            mythread.interrupt();
+            t.cancel(true);
             //writeToConsole();
             writeToOutputFile();
             resetAll();
@@ -220,8 +219,8 @@ public class QuizPage extends AppCompatActivity {
         isRated = false;
     }
 
-    Thread mythread = new Thread(runnable);
-    public void newWord() {
+    Timer t= new Timer();
+    public synchronized void newWord() {
 
         Random rand = new Random();
         int pic1 = 0;
@@ -269,8 +268,8 @@ public class QuizPage extends AppCompatActivity {
             used.add(pic2);
             searchedButton = 2;
         }
-        mythread = new Thread(runnable);
-        mythread.start();
+        t= new Timer();
+        t.execute("");
         time = System.currentTimeMillis();
     }
 }

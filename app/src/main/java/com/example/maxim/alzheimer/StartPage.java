@@ -15,7 +15,7 @@ import java.util.List;
 
 public class StartPage extends AppCompatActivity {
 
-    public static String username = "Nicht angeben";
+    public static String username = "Nicht angegeben";
     public static int numberOfQuestions = 10;
     public static int secondsPerQuestion = 30;
     public static int numberOfTutorials = 3;

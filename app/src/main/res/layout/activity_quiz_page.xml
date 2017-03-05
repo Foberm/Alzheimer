@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/label_word"
             android:textAlignment="center"
-            android:textSize="66sp"
-            tools:textColor="#000" />
+            android:textSize="100sp"
+            tools:textColor="#000000" />
 
         <LinearLayout
             android:id="@+id/fullscreen_content_controls"

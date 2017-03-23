@@ -29,10 +29,10 @@ import java.util.Random;
 public class QuizPage extends AppCompatActivity {
 
     ImageButton btn_ans1, btn_ans2;
-    TextView lbl_searchedWord;
+    TextView lbl_searchedWord, lbl_tutorial;
 
     public List<String[]> answers = new ArrayList<String[]>();
-    public List<Integer> used = new ArrayList<Integer>();
+    //public List<Integer> used = new ArrayList<Integer>();
 
     boolean isRated = false;
     long time = 0;
@@ -65,6 +65,7 @@ public class QuizPage extends AppCompatActivity {
         btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
         btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
         lbl_searchedWord = (TextView) findViewById(R.id.label_word);
+        lbl_tutorial = (TextView) findViewById(R.id.label_tutorial);
 
         findViewById(R.id.btn_answer1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,62 +223,67 @@ public class QuizPage extends AppCompatActivity {
     public void resetAll() {
         StartPage.pictures.clear();
         answers.clear();
-        used.clear();
+        //used.clear();
         isRated = false;
+
         //Reset to default
         StartPage.numberOfQuestions = 10;
         StartPage.secondsPerQuestion = 30;
         StartPage.username = "Nicht angegeben";
+        StartPage.birthDate = "Nicht angegeben";
+        StartPage.diagnosis = "Nicht angegeben";
+        StartPage.sub_directory = "";
     }
 
     Timer t= new Timer();
     public synchronized void newWord() {
 
+        lbl_tutorial.setText("");
+
+        if(!isRated)
+            lbl_tutorial.setText("T");
+
         Random rand = new Random();
-        int pic1 = 0;
+        int pic1, pic2 = 0;
+        /*
         do {
             pic1 = rand.nextInt(StartPage.pictures.size());
         } while (used.contains(pic1));
+        */
+            pic1 = rand.nextInt(StartPage.pictures.size());
 
-        int pic2 = 0;
         do {
             pic2 = rand.nextInt(StartPage.pictures.size());
-        } while (used.contains(pic2) || pic1 == pic2);
+        } while ( /* used.contains(pic2) || */ pic1 == pic2);
 
         btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
         btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
 
         //Set the chosen Pictures to the ImageButtons
-        String path_btn_ans1 = Environment.getExternalStorageDirectory()+ "/" + StartPage.main_directory + "/" + StartPage.pictures.get(pic1) +".jpg";
-        String path_btn_ans2 = Environment.getExternalStorageDirectory()+ "/" + StartPage.main_directory + "/" + StartPage.pictures.get(pic2) +".jpg";
+        String path_btn_ans1 = Environment.getExternalStorageDirectory()+ "/" +
+                StartPage.main_directory + "/" + "/" + StartPage.sub_directory + "/" +StartPage.pictures.get(pic1) +".jpg";
+        String path_btn_ans2 = Environment.getExternalStorageDirectory()+ "/" +
+                StartPage.main_directory + "/" + StartPage.sub_directory + "/" + StartPage.pictures.get(pic2) +".jpg";
         Drawable draw_btn_ans1 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans1));
         Drawable draw_btn_ans2 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans2));
         btn_ans1.setImageDrawable(draw_btn_ans1);
         btn_ans2.setImageDrawable(draw_btn_ans2);
 
 
-        /*
-        Context contextAns1 = btn_ans1.getContext();
-        int idAns1 = contextAns1.getResources().getIdentifier(StartPage.pictures.get(pic1), "drawable", contextAns1.getPackageName());
-        btn_ans1.setImageResource(idAns1);
-        Context contextAns2 = btn_ans2.getContext();
-        int idAns2 = contextAns1.getResources().getIdentifier(StartPage.pictures.get(pic2), "drawable", contextAns2.getPackageName());
-        btn_ans2.setImageResource(idAns2);
-        */
 
         boolean correctAnswer = rand.nextBoolean();
         if (correctAnswer) {
             lbl_searchedWord.setText("" + StartPage.pictures.get(pic1).toUpperCase());
             searchedWord = StartPage.pictures.get(pic1);
             searchedButton = 1;
-            used.add(pic1);
+            //used.add(pic1);
         } else {
             lbl_searchedWord.setText("" + StartPage.pictures.get(pic2).toUpperCase());
             searchedWord = StartPage.pictures.get(pic2);
-            used.add(pic2);
+            //used.add(pic2);
             searchedButton = 2;
         }
-        t= new Timer();
+        t = new Timer();
         t.execute("");
         time = System.currentTimeMillis();
     }

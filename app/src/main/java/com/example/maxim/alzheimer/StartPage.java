@@ -11,11 +11,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class StartPage extends AppCompatActivity {
 
@@ -45,6 +48,7 @@ public class StartPage extends AppCompatActivity {
 
 
         final ArrayList<String> subDirs = new ArrayList<String>();
+        subDirs.add("Zufällig");
 
         //Scanning the available directories
         File yourDir = new File(Environment.getExternalStorageDirectory(), "/" + main_directory);
@@ -58,13 +62,22 @@ public class StartPage extends AppCompatActivity {
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subDirs);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setSelection(0);
 
         //OnClick for Drop-Down-List
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                sub_directory = spinner.getSelectedItem().toString();
+
+                if(spinner.getSelectedItemPosition() != 0)
+                    sub_directory = spinner.getSelectedItem().toString();
+                else {
+                    int randomSubDirId = ThreadLocalRandom.current().nextInt(1, subDirs.size());
+                    sub_directory = subDirs.get(randomSubDirId);
+                }
 
                 pictures.clear();
+
+                ((TextView) parent.getChildAt(0)).setTextSize(25);
 
                 //Scanning the available pictures
                 String filename = "";
@@ -80,7 +93,8 @@ public class StartPage extends AppCompatActivity {
                 }
 
                 //Let User know the maximum amount of Questions possible
-                ((EditText)findViewById(R.id.numOfQuestionsInput)).setHint("Anzahl Fragen.. (Standard: 10, Maximal: " + (pictures.size()-1 -numberOfTutorials) + ")");
+                //((EditText)findViewById(R.id.numOfQuestionsInput)).setHint("Anzahl Fragen.. (Standard: 10, Maximal: " + (pictures.size()-1 -numberOfTutorials) + ")");
+                ((EditText)findViewById(R.id.numOfQuestionsInput)).setHint("Anzahl Fragen.. (Standard: 10, Bilder: " + (pictures.size()) + ")");
 
             }
             public void onNothingSelected(AdapterView<?> parent) {
@@ -113,9 +127,11 @@ public class StartPage extends AppCompatActivity {
 
                 if(!anzahl.isEmpty()) {
                     int a = Integer.parseInt(anzahl);
+                    /*
                     if(a > pictures.size()-1 -numberOfTutorials)
                         numberOfQuestions = pictures.size()-1 -numberOfTutorials;
                     else
+                    */
                         numberOfQuestions = a;
                 }
 

@@ -40,17 +40,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Name"
             android:ems="10"
             android:id="@+id/diagnosisInput"
             android:layout_weight="0.08"
             android:hint="Diagnose.." />
 
-        <Spinner
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/subDirInput"
-            android:layout_weight="0.08" />
+            android:layout_weight="0.08"
+            android:background="@android:color/transparent"
+            android:weightSum="1">
+
+            <TextView
+                android:text="Gebiet:"
+                android:layout_width="86dp"
+                android:layout_height="match_parent"
+                android:id="@+id/labelForDropDown"
+                android:ems="10"
+                android:textSize="22sp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="5sp"
+                android:layout_weight="0.15" />
+
+            <Spinner
+                android:layout_width="208dp"
+                android:layout_height="match_parent"
+                android:id="@+id/subDirInput"
+                android:ems="10"
+                android:layout_weight="0.21" />
+        </LinearLayout>
 
         <EditText
             android:layout_width="match_parent"
@@ -67,7 +87,7 @@
             android:inputType="number"
             android:ems="10"
             android:id="@+id/timePerQuestionInput"
-            android:hint="Zeit pro Frage.. (Standard: 30sec)"
+            android:hint="Zeit pro Frage.. (Standard: 30 sec)"
             android:layout_weight="0.08" />
 
         <Button

@@ -36,7 +36,6 @@ public class QuizPage extends AppCompatActivity {
 
     boolean isRated = false;
     long time = 0;
-
     int searchedButton = 0;
     String searchedWord = "";
 
@@ -90,8 +89,8 @@ public class QuizPage extends AppCompatActivity {
             }
         });
         newWord();
-        Timer t= new Timer();
-        t.execute("");
+        Timer timer = new Timer();
+        timer.execute("");
     }
 
 
@@ -104,27 +103,20 @@ public class QuizPage extends AppCompatActivity {
             t.cancel(true);
 
         switch (state) {
-            case -1:    //beenden
+            case -1:
                 tmp[1] = "Abbruch";
                 tmp[2] = "-";
-                /*
-                while (answers.size() < StartPage.numberOfQuestions-1){
-                    String[] tmp2 ={"NB","NB","-"};
-                    answers.add(tmp2);
-                }
-                */
-
                 break;
-            case 0:     //skippen
+            case 0:
                 tmp[1] = "NB";
                 tmp[2] = "0";
                 break;
-            case 1:     //richtig
+            case 1:
                 Log.d("switch", "richtig");
                 tmp[1] = "Richtig";
                 tmp[2] = "" + ((System.currentTimeMillis() - time) / 1000);
                 break;
-            case 2:     //falsch
+            case 2:
                 Log.d("switch", "falsch");
                 tmp[1] = "Falsch";
                 tmp[2] = "" + ((System.currentTimeMillis() - time) / 1000);
@@ -137,10 +129,9 @@ public class QuizPage extends AppCompatActivity {
             answers.clear();
             isRated = true;
         }
-
+        //Finished
         if(answers.size() == StartPage.numberOfQuestions && isRated || state == -1){
             t.cancel(true);
-            //writeToConsole();
             writeToOutputFile();
             resetAll();
             startActivity(new Intent(QuizPage.this, StartPage.class));
@@ -148,39 +139,11 @@ public class QuizPage extends AppCompatActivity {
         else newWord();
     }
 
-    public void writeToConsole() {
-        String out = StartPage.username+": \n";
-        int[] len=new int[answers.size()];
-        for(int i=0;i<answers.size();i++) {
-            for (String[] an : answers) {
-                if (an[0].length() > an[1].length()) len[i] = an[0].length();
-                else len[i] = an[1].length();
-            }
-        }
-        for(int i=0;i<3;i++){
-            int j=0;
-            for (String[] an : answers) {
-              out += an[i] + repeat(" ", len[j]-an[i].length())+"   ";
-              j++;
-            }
-            out += "\n";
-        }
-        Log.d("out", out);
-    }
-
-    public static String repeat(String val, int count){
-        StringBuilder buf = new StringBuilder(val.length() * count);
-        while (count-- > 0) {
-            buf.append(val);
-        }
-        return buf.toString();
-    }
-
     public void writeToOutputFile(){
         try {
             File path = Environment.getExternalStorageDirectory();
-            File f = new File(path.getAbsolutePath() + "/" + StartPage.main_directory);
-            File b = new File(f, StartPage.outputFileName);
+            File absolutePath = new File(path.getAbsolutePath() + "/" + StartPage.main_directory);
+            File outputFile = new File(absolutePath, StartPage.outputFileName);
 
             Calendar c = Calendar.getInstance();
             int date = c.get(Calendar.DATE);
@@ -192,7 +155,7 @@ public class QuizPage extends AppCompatActivity {
             String time = "" + hour + min + sec;
 
 
-            FileOutputStream fOut = new FileOutputStream(b, true);
+            FileOutputStream fOut = new FileOutputStream(outputFile, true);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
 
             osw.append('\n');
@@ -211,7 +174,7 @@ public class QuizPage extends AppCompatActivity {
             fOut.getFD().sync();
             osw.close();
 
-            MediaScannerConnection.scanFile(this, new String[]{b.getAbsolutePath()}, null, null);
+            MediaScannerConnection.scanFile(this, new String[]{outputFile.getAbsolutePath()}, null, null);
 
         }
         catch(IOException e)
@@ -235,7 +198,7 @@ public class QuizPage extends AppCompatActivity {
         StartPage.sub_directory = "";
     }
 
-    Timer t= new Timer();
+    Timer t = new Timer();
     public synchronized void newWord() {
 
         lbl_tutorial.setText("");

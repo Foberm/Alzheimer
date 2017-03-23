@@ -10,7 +10,6 @@
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -34,7 +33,8 @@
             android:ems="10"
             android:id="@+id/birthDateInput"
             android:layout_weight="0.08"
-            android:hint="Geburtsdatum.." />
+            android:hint="Geburtsdatum.."
+            android:focusable="false"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -49,7 +49,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.08"
+            android:layout_weight="0.07"
             android:background="@android:color/transparent"
             android:weightSum="1">
 
@@ -58,11 +58,12 @@
                 android:layout_width="86dp"
                 android:layout_height="match_parent"
                 android:id="@+id/labelForDropDown"
-                android:ems="10"
-                android:textSize="22sp"
+                android:ems="1"
+                android:textSize="18sp"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="5sp"
-                android:layout_weight="0.15" />
+                android:layout_marginLeft="4sp"
+                android:layout_weight="0.04"
+                android:textColor="@android:color/tertiary_text_light" />
 
             <Spinner
                 android:layout_width="208dp"
@@ -71,6 +72,13 @@
                 android:ems="10"
                 android:layout_weight="0.21" />
         </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1sp"
+            android:layout_marginLeft="3sp"
+            android:layout_marginRight="3sp"
+            android:background="#c5c5c5"/>
 
         <EditText
             android:layout_width="match_parent"

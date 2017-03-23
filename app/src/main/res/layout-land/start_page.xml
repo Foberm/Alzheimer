@@ -30,6 +30,31 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/birthDateInput"
+            android:layout_weight="0.08"
+            android:hint="Geburtsdatum.." />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:ems="10"
+            android:id="@+id/diagnosisInput"
+            android:layout_weight="0.08"
+            android:hint="Diagnose.." />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/subDirInput"
+            android:layout_weight="0.08" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
             android:id="@+id/numOfQuestionsInput"
@@ -46,7 +71,7 @@
             android:layout_weight="0.08" />
 
         <Button
-            android:id="@+id/beginnen"
+            android:id="@+id/btn_startQuiz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Beginnen"

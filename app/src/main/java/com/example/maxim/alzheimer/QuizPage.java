@@ -19,8 +19,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -183,14 +185,19 @@ public class QuizPage extends AppCompatActivity {
             int date = c.get(Calendar.DATE);
             int month = c.get(Calendar.MONTH) +1;
             int year = c.get(Calendar.YEAR);
+            int hour = c.get(Calendar.HOUR);
+            int min = c.get(Calendar.MINUTE);
+            int sec = c.get(Calendar.SECOND);
+            String time = "" + hour + min + sec;
+
 
             FileOutputStream fOut = new FileOutputStream(b, true);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
 
             osw.append('\n');
-            osw.append(StartPage.username);
-            osw.append(';');
             osw.append(date + "." + month + "." + year);
+            osw.append(';');
+            osw.append(StartPage.username);
             osw.append(';');
             for(int i = 0; i < answers.size(); i++){
                 for(int j = 0; j < answers.get(i).length; j++){

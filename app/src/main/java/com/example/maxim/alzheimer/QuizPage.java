@@ -31,6 +31,12 @@ public class QuizPage extends AppCompatActivity {
     ImageButton btn_ans1, btn_ans2;
     TextView lbl_searchedWord, lbl_tutorial;
 
+    public static int numberCorrectAnswers = 0;
+    public static int numberFalseAnswers = 0;
+    public static int numberSkippedAnswers = 0;
+    public static long overallTime = 0;
+
+
     public List<String[]> answers = new ArrayList<String[]>();
     //public List<Integer> used = new ArrayList<Integer>();
 
@@ -55,6 +61,8 @@ public class QuizPage extends AppCompatActivity {
             writeToAnswers(0);
         }
     }
+
+    Timer t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +96,8 @@ public class QuizPage extends AppCompatActivity {
                 writeToAnswers(-1);
             }
         });
+
         newWord();
-        Timer timer = new Timer();
-        timer.execute("");
     }
 
 
@@ -98,8 +105,9 @@ public class QuizPage extends AppCompatActivity {
         String[] tmp = new String[3];
         String searchedWordUpperCase = searchedWord.substring(0, 1).toUpperCase() + searchedWord.substring(1);
         tmp[0] = searchedWordUpperCase;
+        long timeUsed = ((System.currentTimeMillis() - time) / 1000);
+        if(isRated) overallTime += timeUsed;
 
-        if(state != 0)
             t.cancel(true);
 
         switch (state) {
@@ -109,17 +117,19 @@ public class QuizPage extends AppCompatActivity {
                 break;
             case 0:
                 tmp[1] = "NB";
-                tmp[2] = "0";
+                tmp[2] = "" + timeUsed;
+                if(isRated) numberSkippedAnswers++;
+
                 break;
             case 1:
-                Log.d("switch", "richtig");
                 tmp[1] = "Richtig";
-                tmp[2] = "" + ((System.currentTimeMillis() - time) / 1000);
+                tmp[2] = "" + timeUsed;
+                if(isRated) numberCorrectAnswers++;
                 break;
             case 2:
-                Log.d("switch", "falsch");
                 tmp[1] = "Falsch";
-                tmp[2] = "" + ((System.currentTimeMillis() - time) / 1000);
+                tmp[2] = "" + timeUsed;
+                if(isRated) numberFalseAnswers++;
                 break;
         }
         answers.add(tmp);
@@ -133,8 +143,9 @@ public class QuizPage extends AppCompatActivity {
         if(answers.size() == StartPage.numberOfQuestions && isRated || state == -1){
             t.cancel(true);
             writeToOutputFile();
-            resetAll();
-            startActivity(new Intent(QuizPage.this, StartPage.class));
+            answers.clear();
+            isRated = false;
+            startActivity(new Intent(QuizPage.this, ResultPage.class));
         }
         else newWord();
     }
@@ -149,10 +160,7 @@ public class QuizPage extends AppCompatActivity {
             int date = c.get(Calendar.DATE);
             int month = c.get(Calendar.MONTH) +1;
             int year = c.get(Calendar.YEAR);
-            int hour = c.get(Calendar.HOUR);
-            int min = c.get(Calendar.MINUTE);
-            int sec = c.get(Calendar.SECOND);
-            String time = "" + hour + min + sec;
+
 
 
             FileOutputStream fOut = new FileOutputStream(outputFile, true);
@@ -183,22 +191,8 @@ public class QuizPage extends AppCompatActivity {
         }
     }
 
-    public void resetAll() {
-        StartPage.pictures.clear();
-        answers.clear();
-        //used.clear();
-        isRated = false;
 
-        //Reset to default
-        StartPage.numberOfQuestions = 10;
-        StartPage.secondsPerQuestion = 30;
-        StartPage.username = "Nicht angegeben";
-        StartPage.birthDate = "Nicht angegeben";
-        StartPage.diagnosis = "Nicht angegeben";
-        StartPage.sub_directory = "";
-    }
-
-    Timer t = new Timer();
+    //Timer t = new Timer();
     public synchronized void newWord() {
 
         lbl_tutorial.setText("");

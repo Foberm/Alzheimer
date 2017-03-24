@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#fff">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5sp"
+        >
+
+        <TextView
+            android:text="Auswertung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_result"
+            android:textSize="36sp"
+            android:layout_marginBottom="40sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_result_time"
+            android:textSize="24sp"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_result_count"
+            android:textSize="24sp"
+            android:layout_margin="10dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40sp"
+            >
+
+            <TextView
+                android:text="Richtig:"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/label_Correct"
+                android:textSize="24sp"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/label_result_correct"
+                android:textSize="24sp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40sp"
+            >
+
+            <TextView
+                android:text="Nicht beantwortet:"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/label_Skipped"
+                android:textSize="24sp"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/label_result_skipped"
+
+                android:textSize="24sp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40sp"
+            >
+
+            <TextView
+                android:text="Falsch:"
+                android:layout_height="wrap_content"
+                android:id="@+id/label_False"
+                android:textSize="24sp"
+                android:layout_width="270dp"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/label_result_false"
+                android:textSize="24sp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+        <Button
+            android:text="Neuer Durchlauf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20sp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="18sp"
+            android:id="@+id/btn_BackToStart" />
+
+    </LinearLayout>
+
+</RelativeLayout>

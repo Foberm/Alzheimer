@@ -38,7 +38,7 @@ public class QuizPage extends AppCompatActivity {
 
 
     public List<String[]> answers = new ArrayList<String[]>();
-    //public List<Integer> used = new ArrayList<Integer>();
+    public List<Integer> used = new ArrayList<Integer>();
 
     boolean isRated = false;
     long time = 0;
@@ -200,16 +200,16 @@ public class QuizPage extends AppCompatActivity {
 
         Random rand = new Random();
         int pic1, pic2 = 0;
-        /*
+
         do {
             pic1 = rand.nextInt(StartPage.pictures.size());
         } while (used.contains(pic1));
-        */
-            pic1 = rand.nextInt(StartPage.pictures.size());
+
+
 
         do {
             pic2 = rand.nextInt(StartPage.pictures.size());
-        } while ( /* used.contains(pic2) || */ pic1 == pic2);
+        } while (used.contains(pic2) ||  pic1 == pic2);
 
         btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
         btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
@@ -224,18 +224,17 @@ public class QuizPage extends AppCompatActivity {
         btn_ans1.setImageDrawable(draw_btn_ans1);
         btn_ans2.setImageDrawable(draw_btn_ans2);
 
-
+        used.add(pic1);
+        used.add(pic2);
 
         boolean correctAnswer = rand.nextBoolean();
         if (correctAnswer) {
             lbl_searchedWord.setText("" + StartPage.pictures.get(pic1).toUpperCase());
             searchedWord = StartPage.pictures.get(pic1);
             searchedButton = 1;
-            //used.add(pic1);
         } else {
             lbl_searchedWord.setText("" + StartPage.pictures.get(pic2).toUpperCase());
             searchedWord = StartPage.pictures.get(pic2);
-            //used.add(pic2);
             searchedButton = 2;
         }
         timer = new Timer();

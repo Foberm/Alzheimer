@@ -42,7 +42,7 @@ public class StartPage extends AppCompatActivity {
 
         setContentView(R.layout.start_page);
 
-        //Creating Directory if doesn't exist
+        //Creating Directory if doesn'timer exist
         final File directory = new File(Environment.getExternalStorageDirectory(), main_directory);
         Log.d("dir", Environment.getExternalStorageDirectory().toString());
         if (!directory.exists()) {

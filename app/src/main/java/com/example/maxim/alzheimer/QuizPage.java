@@ -18,12 +18,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class QuizPage extends AppCompatActivity {
@@ -62,7 +62,7 @@ public class QuizPage extends AppCompatActivity {
         }
     }
 
-    Timer t;
+    Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +108,7 @@ public class QuizPage extends AppCompatActivity {
         long timeUsed = ((System.currentTimeMillis() - time) / 1000);
         if(isRated) overallTime += timeUsed;
 
-            t.cancel(true);
+            timer.cancel(true);
 
         switch (state) {
             case -1:
@@ -141,7 +141,7 @@ public class QuizPage extends AppCompatActivity {
         }
         //Finished
         if(answers.size() == StartPage.numberOfQuestions && isRated || state == -1){
-            t.cancel(true);
+            timer.cancel(true);
             writeToOutputFile();
             answers.clear();
             isRated = false;
@@ -157,17 +157,15 @@ public class QuizPage extends AppCompatActivity {
             File outputFile = new File(absolutePath, StartPage.outputFileName);
 
             Calendar c = Calendar.getInstance();
-            int date = c.get(Calendar.DATE);
-            int month = c.get(Calendar.MONTH) +1;
-            int year = c.get(Calendar.YEAR);
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
 
             FileOutputStream fOut = new FileOutputStream(outputFile, true);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
 
             osw.append('\n');
-            osw.append(date + "." + month + "." + year);
+            osw.append(dateFormat.format(c.getTime()));
             osw.append(';');
             osw.append(StartPage.username);
             osw.append(';');
@@ -192,7 +190,7 @@ public class QuizPage extends AppCompatActivity {
     }
 
 
-    //Timer t = new Timer();
+    //Timer timer = new Timer();
     public synchronized void newWord() {
 
         lbl_tutorial.setText("");
@@ -240,8 +238,8 @@ public class QuizPage extends AppCompatActivity {
             //used.add(pic2);
             searchedButton = 2;
         }
-        t = new Timer();
-        t.execute("");
+        timer = new Timer();
+        timer.execute("");
         time = System.currentTimeMillis();
     }
 }

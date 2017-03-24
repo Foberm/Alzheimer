@@ -100,8 +100,12 @@
 
         <Button
             android:id="@+id/btn_startQuiz"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#4a8ef9"
+            android:paddingLeft="40sp"
+            android:paddingRight="40sp"
+            android:layout_gravity="center_horizontal"
             android:text="Beginnen"
             android:layout_weight="0.12" />
     </LinearLayout>

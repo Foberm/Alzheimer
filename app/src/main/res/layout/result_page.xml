@@ -109,7 +109,9 @@
             android:text="Neuer Durchlauf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="20sp"
+            android:background="#4a8ef9"
+            android:paddingLeft="40sp"
+            android:paddingRight="40sp"
             android:layout_gravity="center_horizontal"
             android:textSize="18sp"
             android:id="@+id/btn_BackToStart" />

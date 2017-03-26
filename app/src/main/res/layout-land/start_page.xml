@@ -54,7 +54,7 @@
             android:weightSum="1">
 
             <TextView
-                android:text="Gebiet:"
+                android:text="Kategorie:"
                 android:layout_width="86dp"
                 android:layout_height="match_parent"
                 android:id="@+id/labelForDropDown"
@@ -71,6 +71,15 @@
                 android:id="@+id/subDirInput"
                 android:ems="10"
                 android:layout_weight="0.21" />
+
+            <Button
+                android:text="+"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_newCategory"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:textSize="24sp"
+                android:textColor="#c5c5c5" />
         </LinearLayout>
 
         <View
@@ -102,12 +111,12 @@
             android:id="@+id/btn_startQuiz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#4a8ef9"
             android:paddingLeft="40sp"
             android:paddingRight="40sp"
             android:layout_gravity="center_horizontal"
             android:text="Beginnen"
-            android:layout_weight="0.12" />
+            android:layout_weight="0.12"
+            style="@style/Widget.AppCompat.Button.Colored" />
     </LinearLayout>
 
 </FrameLayout>

@@ -34,11 +34,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/label_word"
-            android:textAlignment="center"
-            android:textSize="96sp"
-            android:textColor="#000"
             tools:textColor="#000000"
-            android:paddingTop="10dp"/>
+            android:paddingTop="10dp"
+            android:textAlignment="center"
+            android:textSize="94sp"
+            android:textColor="#000" />
 
         <LinearLayout
             android:id="@+id/fullscreen_content_controls"

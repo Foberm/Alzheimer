@@ -1,10 +1,13 @@
 package com.example.maxim.alzheimer;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,36 +38,20 @@ public class StartPage extends AppCompatActivity {
     public static List<String> pictures = new ArrayList<String>();
 
     final Calendar myCalendar = Calendar.getInstance();
+    final ArrayList<String> subDirs = new ArrayList<String>();
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.start_page);
 
-        //Creating Directory if doesn'timer exist
-        final File directory = new File(Environment.getExternalStorageDirectory(), main_directory);
-        Log.d("dir", Environment.getExternalStorageDirectory().toString());
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
+        spinner = (Spinner) findViewById(R.id.subDirInput);
 
+        createDirectory(main_directory);
 
-        final ArrayList<String> subDirs = new ArrayList<String>();
+        updateDropDown();
 
-        //Scanning the available directories
-        File yourDir = new File(Environment.getExternalStorageDirectory(), "/" + main_directory);
-        for (File f : yourDir.listFiles()) {
-            if (f.isDirectory())
-                subDirs.add(f.getName());
-        }
-
-        //Drop-Down-List for choosing the sub-directory
-        final Spinner spinner = (Spinner) findViewById(R.id.subDirInput);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subDirs);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerArrayAdapter);
-        spinner.setSelection(sub_directoryId);
 
         //OnClick for Drop-Down-List
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -115,6 +102,14 @@ public class StartPage extends AppCompatActivity {
 
         };
 
+        //OnClick for creating new Category Button
+        findViewById(R.id.btn_newCategory).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewCategory();
+            }
+        });
+
         //OnClick for BirthDate Input
         ((EditText) findViewById(R.id.birthDateInput)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,11 +142,11 @@ public class StartPage extends AppCompatActivity {
 
                 if(!anzahl.isEmpty()) {
                     int a = Integer.parseInt(anzahl);
-                    /*
-                    if(a > pictures.size()-1 -numberOfTutorials)
+
+                    if(a > ((pictures.size()-1) /2 -numberOfTutorials))
                         numberOfQuestions = pictures.size()-1 -numberOfTutorials;
                     else
-                    */
+
                         numberOfQuestions = a;
                 }
 
@@ -171,6 +166,63 @@ public class StartPage extends AppCompatActivity {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         ((EditText)findViewById(R.id.birthDateInput)).setText(sdf.format(myCalendar.getTime()));
+    }
+
+    public void createNewCategory() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Neue Kategorie hinzufügen");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                createDirectory(input.getText().toString());
+                updateDropDown();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    public void updateDropDown() {
+
+        subDirs.clear();
+
+        //Scanning the available directories
+        File yourDir = new File(Environment.getExternalStorageDirectory(), "/" + main_directory);
+        for (File f : yourDir.listFiles()) {
+            if (f.isDirectory())
+                subDirs.add(f.getName());
+        }
+
+        //Drop-Down-List for choosing the sub-directory
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subDirs);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setSelection(sub_directoryId);
+    }
+
+    public void createDirectory(String dirName){
+        File path;
+        if(dirName.equals(main_directory)) path = Environment.getExternalStorageDirectory();
+        else path = new File(Environment.getExternalStorageDirectory() + "/" + main_directory);
+
+        File directory = new File(path, dirName);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
     }
 
 

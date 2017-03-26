@@ -224,8 +224,9 @@ public class QuizPage extends AppCompatActivity {
         btn_ans1.setImageDrawable(draw_btn_ans1);
         btn_ans2.setImageDrawable(draw_btn_ans2);
 
-        used.add(pic1);
-        used.add(pic2);
+        //used.add(pic1);
+        //used.add(pic2);
+
 
         boolean correctAnswer = rand.nextBoolean();
         if (correctAnswer) {

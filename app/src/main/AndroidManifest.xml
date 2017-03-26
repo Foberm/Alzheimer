@@ -37,6 +37,14 @@
             android:screenOrientation="landscape"
             android:theme="@style/FullscreenTheme">
         </activity>
+
+        <activity
+            android:name=".InstructionPage"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Instruktionen"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullscreenTheme">
+        </activity>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

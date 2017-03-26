@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/label_result"
-            android:textSize="36sp"
-            android:layout_marginBottom="40sp"/>
+            android:textSize="64sp"
+            android:layout_margin="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -106,15 +106,16 @@
         </LinearLayout>
 
         <Button
-            android:text="Neuer Durchlauf"
+            android:text="Erneut starten"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#4a8ef9"
             android:paddingLeft="40sp"
             android:paddingRight="40sp"
             android:layout_gravity="center_horizontal"
-            android:textSize="18sp"
-            android:id="@+id/btn_BackToStart" />
+            android:textSize="24sp"
+            android:id="@+id/btn_BackToStart"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:textColor="#fff" />
 
     </LinearLayout>
 

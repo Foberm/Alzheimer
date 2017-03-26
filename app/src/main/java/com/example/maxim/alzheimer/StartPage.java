@@ -3,6 +3,7 @@ package com.example.maxim.alzheimer;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -28,13 +30,14 @@ public class StartPage extends AppCompatActivity {
     public static String username = "Nicht angegeben";
     public static String birthDate = "Nicht angegeben";
     public static String diagnosis = "Nicht angegeben";
-    public static int numberOfQuestions = 3;
-    public static int secondsPerQuestion = 5;
+    public static int numberOfQuestions = 5;
+    public static int secondsPerQuestion = 10;
     public static int numberOfTutorials = 1;
     public static String main_directory = "Alzheimer-Studie";
     public static String sub_directory = "";
     public static int sub_directoryId = 0;
     public static String outputFileName = "Auswertung_Alzheimer-Studie.csv";
+    public static String instructionFile = "Instruktionen.jpg";
     public static List<String> pictures = new ArrayList<String>();
 
     final Calendar myCalendar = Calendar.getInstance();
@@ -51,7 +54,6 @@ public class StartPage extends AppCompatActivity {
         createDirectory(main_directory);
 
         updateDropDown();
-
 
         //OnClick for Drop-Down-List
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -121,7 +123,7 @@ public class StartPage extends AppCompatActivity {
         });
 
         //OnClick for "Beginnen"-Button
-        findViewById(R.id.btn_startQuiz).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_ToInstructions).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -142,10 +144,12 @@ public class StartPage extends AppCompatActivity {
 
                 if(!anzahl.isEmpty()) {
                     int a = Integer.parseInt(anzahl);
-
+                    /*
                     if(a > ((pictures.size()-1) /2 -numberOfTutorials))
                         numberOfQuestions = pictures.size()-1 -numberOfTutorials;
                     else
+
+                    */
 
                         numberOfQuestions = a;
                 }
@@ -154,7 +158,7 @@ public class StartPage extends AppCompatActivity {
                     secondsPerQuestion = Integer.parseInt(zeit);
 
 
-                startActivity(new Intent(StartPage.this, QuizPage.class));
+                startActivity(new Intent(StartPage.this, InstructionPage.class));
             }
         });
 
@@ -184,6 +188,9 @@ public class StartPage extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 createDirectory(input.getText().toString());
                 updateDropDown();
+                Toast.makeText(StartPage.this, "Kategorie erfolgreich hinzugefügt",
+                        Toast.LENGTH_LONG).show();
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

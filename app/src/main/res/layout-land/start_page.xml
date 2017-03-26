@@ -108,15 +108,17 @@
             android:layout_weight="0.08" />
 
         <Button
-            android:id="@+id/btn_startQuiz"
+            android:id="@+id/btn_ToInstructions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="40sp"
             android:paddingRight="40sp"
             android:layout_gravity="center_horizontal"
             android:text="Beginnen"
+            android:textSize="24sp"
             android:layout_weight="0.12"
-            style="@style/Widget.AppCompat.Button.Colored" />
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
     </LinearLayout>
 
 </FrameLayout>

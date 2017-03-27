@@ -155,8 +155,11 @@ public class StartPage extends AppCompatActivity {
                 if(!anzahl.isEmpty()) {
                     int a = Integer.parseInt(anzahl);
 
-                    if(a > maxNumberOfQuestions)
+                    if(a > maxNumberOfQuestions) {
                         numberOfQuestions = maxNumberOfQuestions;
+                        Toast.makeText(StartPage.this, "Die Anzahl der Fragen wurde auf den Maximalwert von " + maxNumberOfQuestions + " gesetzt!",
+                                Toast.LENGTH_LONG).show();
+                    }
                     else
                         numberOfQuestions = a;
                 }
@@ -249,7 +252,7 @@ public class StartPage extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(msg)
-                .setNegativeButton("Verstanden", new DialogInterface.OnClickListener() {
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }

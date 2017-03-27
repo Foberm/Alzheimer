@@ -128,7 +128,7 @@
             android:paddingLeft="40sp"
             android:paddingRight="40sp"
             android:layout_gravity="center_horizontal"
-            android:text="Beginnen"
+            android:text="Weiter"
             android:textSize="24sp"
             android:layout_weight="0.12"
             style="@style/Widget.AppCompat.Button.Colored"

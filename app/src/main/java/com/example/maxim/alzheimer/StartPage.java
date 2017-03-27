@@ -262,9 +262,9 @@ public class StartPage extends AppCompatActivity {
     }
 
     public void updateUserInputs() {
-        ((EditText) findViewById(R.id.nameInput)).setText(username);
-        ((EditText) findViewById(R.id.birthDateInput)).setText(birthDate);
-        ((EditText) findViewById(R.id.diagnosisInput)).setText(diagnosis);
+        if(!username.equals("Nicht angegeben")) ((EditText) findViewById(R.id.nameInput)).setText(username);
+        if(!birthDate.equals("Nicht angegeben"))((EditText) findViewById(R.id.birthDateInput)).setText(birthDate);
+        if(!diagnosis.equals("Nicht angegeben"))((EditText) findViewById(R.id.diagnosisInput)).setText(diagnosis);
 
         sameUser = false;
     }

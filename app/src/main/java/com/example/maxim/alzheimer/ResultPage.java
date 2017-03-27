@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 
@@ -36,12 +37,14 @@ public class ResultPage extends AppCompatActivity {
         lbl_skipped.setText("" + QuizPage.numberSkippedAnswers + " (" + (QuizPage.numberSkippedAnswers *100) / numberOfQuestionsDone + "%)");
         lbl_false.setText("" + QuizPage.numberFalseAnswers + " (" + (QuizPage.numberFalseAnswers *100) / numberOfQuestionsDone + "%)");
 
+        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox_sameUser);
 
         findViewById(R.id.btn_BackToStart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetDefaultVariables();
-                //startActivity(new Intent(ResultPage.this, StartPage.class));
+                if(checkBox.isChecked()) StartPage.sameUser = true;
+                else resetUser();
 
                 Intent i = getBaseContext().getPackageManager()
                         .getLaunchIntentForPackage( getBaseContext().getPackageName() );
@@ -51,22 +54,26 @@ public class ResultPage extends AppCompatActivity {
         });
 
 
+
     }
 
     public void resetDefaultVariables() {
         StartPage.pictures.clear();
 
         //Reset to default
-        StartPage.numberOfQuestions = 3;
-        StartPage.secondsPerQuestion = 5;
-        StartPage.username = "Nicht angegeben";
-        StartPage.birthDate = "Nicht angegeben";
-        StartPage.diagnosis = "Nicht angegeben";
+        StartPage.numberOfQuestions = 10;
+        StartPage.secondsPerQuestion = 30;
         StartPage.sub_directory = "";
         QuizPage.overallTime = 0;
         QuizPage.numberCorrectAnswers = 0;
         QuizPage.numberSkippedAnswers = 0;
         QuizPage.numberFalseAnswers = 0;
+    }
+
+    public void resetUser() {
+        StartPage.username = "Nicht angegeben";
+        StartPage.birthDate = "Nicht angegeben";
+        StartPage.diagnosis = "Nicht angegeben";
     }
 
 }

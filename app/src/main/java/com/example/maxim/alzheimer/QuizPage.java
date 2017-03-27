@@ -159,20 +159,30 @@ public class QuizPage extends AppCompatActivity {
             Calendar c = Calendar.getInstance();
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
 
 
             FileOutputStream fOut = new FileOutputStream(outputFile, true);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
 
+            Log.e("a", timeFormat.format(new Date()));
+
             osw.append('\n');
             osw.append(dateFormat.format(c.getTime()));
             osw.append(';');
+            osw.append(timeFormat.format(new Date()));
+            osw.append(';');
             osw.append(StartPage.username);
+            osw.append(';');
+            osw.append(StartPage.birthDate);
+            osw.append(';');
+            osw.append(StartPage.diagnosis);
             osw.append(';');
             for(int i = 0; i < answers.size(); i++){
                 for(int j = 0; j < answers.get(i).length; j++){
                     osw.append(answers.get(i)[j]);
-                    if(j < answers.get(i).length-1) osw.append(' ');
+                    if(j < answers.get(i).length-1) osw.append('#');
                 }
                 if(i < answers.size()-1) osw.append(';');
             }
@@ -201,31 +211,24 @@ public class QuizPage extends AppCompatActivity {
         Random rand = new Random();
         int pic1, pic2 = 0;
 
-        do {
-            pic1 = rand.nextInt(StartPage.pictures.size());
-        } while (used.contains(pic1));
-
-
+        pic1 = rand.nextInt(StartPage.pictures.size());
 
         do {
             pic2 = rand.nextInt(StartPage.pictures.size());
-        } while (used.contains(pic2) ||  pic1 == pic2);
+        } while (pic1 == pic2);
 
         btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
         btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
 
         //Set the chosen Pictures to the ImageButtons
         String path_btn_ans1 = Environment.getExternalStorageDirectory()+ "/" +
-                StartPage.main_directory + "/" + "/" + StartPage.sub_directory + "/" +StartPage.pictures.get(pic1) +".jpg";
+                StartPage.main_directory + "/" + StartPage.sub_directory + "/" +StartPage.pictures.get(pic1) +".jpg";
         String path_btn_ans2 = Environment.getExternalStorageDirectory()+ "/" +
                 StartPage.main_directory + "/" + StartPage.sub_directory + "/" + StartPage.pictures.get(pic2) +".jpg";
         Drawable draw_btn_ans1 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans1));
         Drawable draw_btn_ans2 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans2));
         btn_ans1.setImageDrawable(draw_btn_ans1);
         btn_ans2.setImageDrawable(draw_btn_ans2);
-
-        //used.add(pic1);
-        //used.add(pic2);
 
 
         boolean correctAnswer = rand.nextBoolean();
@@ -238,6 +241,16 @@ public class QuizPage extends AppCompatActivity {
             searchedWord = StartPage.pictures.get(pic2);
             searchedButton = 2;
         }
+
+        if(pic1 > pic2) {
+            StartPage.pictures.remove(pic1);
+            StartPage.pictures.remove(pic2);
+        }
+        else {
+            StartPage.pictures.remove(pic2);
+            StartPage.pictures.remove(pic1);
+        }
+
         timer = new Timer();
         timer.execute("");
         time = System.currentTimeMillis();

@@ -105,17 +105,34 @@
                 android:layout_margin="10dp"/>
         </LinearLayout>
 
-        <Button
-            android:text="Erneut starten"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="40sp"
-            android:paddingRight="40sp"
-            android:layout_gravity="center_horizontal"
-            android:textSize="24sp"
-            android:id="@+id/btn_BackToStart"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:textColor="#fff" />
+            android:layout_marginTop="40dp">
+
+            <Button
+                android:text="Erneut starten"
+                android:layout_width="wrap_content"
+                android:layout_height="87dp"
+                android:paddingLeft="40sp"
+                android:paddingRight="40sp"
+                android:layout_gravity="center_horizontal"
+                android:textSize="24sp"
+                android:id="@+id/btn_BackToStart"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:textColor="#fff"
+                android:layout_weight="0.18" />
+
+            <CheckBox
+                android:text="Selber Proband"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/checkBox_sameUser"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

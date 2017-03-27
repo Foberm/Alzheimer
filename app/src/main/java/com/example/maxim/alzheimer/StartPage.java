@@ -30,8 +30,9 @@ public class StartPage extends AppCompatActivity {
     public static String username = "Nicht angegeben";
     public static String birthDate = "Nicht angegeben";
     public static String diagnosis = "Nicht angegeben";
-    public static int numberOfQuestions = 5;
-    public static int secondsPerQuestion = 10;
+    public static boolean sameUser = false;
+    public static int numberOfQuestions = 10;
+    public static int secondsPerQuestion = 30;
     public static int numberOfTutorials = 1;
     public static String main_directory = "Alzheimer-Studie";
     public static String sub_directory = "";
@@ -39,6 +40,7 @@ public class StartPage extends AppCompatActivity {
     public static String outputFileName = "Auswertung_Alzheimer-Studie.csv";
     public static String instructionFile = "Instruktionen.jpg";
     public static List<String> pictures = new ArrayList<String>();
+    int maxNumberOfQuestions = 0;
 
     final Calendar myCalendar = Calendar.getInstance();
     final ArrayList<String> subDirs = new ArrayList<String>();
@@ -54,6 +56,8 @@ public class StartPage extends AppCompatActivity {
         createDirectory(main_directory);
 
         updateDropDown();
+
+        if(sameUser) updateUserInputs();
 
         //OnClick for Drop-Down-List
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -80,9 +84,15 @@ public class StartPage extends AppCompatActivity {
                     }
                 }
 
+                if(pictures.size()%2 == 0)
+                    maxNumberOfQuestions = (pictures.size() - numberOfTutorials*2) /2 ;
+                else
+                    maxNumberOfQuestions = (pictures.size()-1 - numberOfTutorials*2) /2;
+
                 //Let User know the maximum amount of Questions possible
-                //((EditText)findViewById(R.id.numOfQuestionsInput)).setHint("Anzahl Fragen.. (Standard: 10, Maximal: " + (pictures.size()-1 -numberOfTutorials) + ")");
-                ((EditText) findViewById(R.id.numOfQuestionsInput)).setHint("Anzahl Fragen.. (Standard: 10, Bilder: " + (pictures.size()) + ")");
+                ((EditText) findViewById(R.id.numOfQuestionsInput)).setHint("Anzahl Fragen.. (Standard: 10, Maximal: " + maxNumberOfQuestions + ")");
+
+                ((TextView) findViewById(R.id.lbl_itemsInCategory)).setText("Items: " + pictures.size());
 
             }
 
@@ -144,21 +154,22 @@ public class StartPage extends AppCompatActivity {
 
                 if(!anzahl.isEmpty()) {
                     int a = Integer.parseInt(anzahl);
-                    /*
-                    if(a > ((pictures.size()-1) /2 -numberOfTutorials))
-                        numberOfQuestions = pictures.size()-1 -numberOfTutorials;
+
+                    if(a > maxNumberOfQuestions)
+                        numberOfQuestions = maxNumberOfQuestions;
                     else
-
-                    */
-
                         numberOfQuestions = a;
                 }
+                else if(numberOfQuestions > maxNumberOfQuestions)
+                        numberOfQuestions = maxNumberOfQuestions;
 
                 if(!zeit.isEmpty())
                     secondsPerQuestion = Integer.parseInt(zeit);
 
-
-                startActivity(new Intent(StartPage.this, InstructionPage.class));
+                if(pictures.size() == 0)
+                    showDialog("Keine Items vorhanden", "In dieser Kategorie befinden sich keine validen Items!\n\nFügen Sie unter    Gerätespeicher/Alzheimer-Studie/xx    Bilder im .JPG Format hinzu!");
+                else
+                    startActivity(new Intent(StartPage.this, InstructionPage.class));
             }
         });
 
@@ -214,11 +225,13 @@ public class StartPage extends AppCompatActivity {
                 subDirs.add(f.getName());
         }
 
-        //Drop-Down-List for choosing the sub-directory
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subDirs);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerArrayAdapter);
-        spinner.setSelection(sub_directoryId);
+        if(!subDirs.isEmpty()) {
+            //Drop-Down-List for choosing the sub-directory
+            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subDirs);
+            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(spinnerArrayAdapter);
+            spinner.setSelection(sub_directoryId);
+        }
     }
 
     public void createDirectory(String dirName){
@@ -232,5 +245,25 @@ public class StartPage extends AppCompatActivity {
         }
     }
 
+    public void showDialog(String title, String msg) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setNegativeButton("Verstanden", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    public void updateUserInputs() {
+        ((EditText) findViewById(R.id.nameInput)).setText(username);
+        ((EditText) findViewById(R.id.birthDateInput)).setText(birthDate);
+        ((EditText) findViewById(R.id.diagnosisInput)).setText(diagnosis);
+
+        sameUser = false;
+    }
 
 }

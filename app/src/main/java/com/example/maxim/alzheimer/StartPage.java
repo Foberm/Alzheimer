@@ -202,7 +202,7 @@ public class StartPage extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 createDirectory(input.getText().toString());
                 updateDropDown();
-                Toast.makeText(StartPage.this, "Kategorie erfolgreich hinzugefügt",
+                Toast.makeText(StartPage.this, "Kategorie " + input.getText().toString() + " hinzugefügt",
                         Toast.LENGTH_LONG).show();
 
             }

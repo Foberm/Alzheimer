@@ -203,28 +203,40 @@ public class QuizPage extends AppCompatActivity {
     //Timer timer = new Timer();
     public synchronized void newWord() {
 
-        lbl_tutorial.setText("");
-
-        if(!isRated)
-            lbl_tutorial.setText("T");
-
-        Random rand = new Random();
-        int pic1, pic2 = 0;
-
-        pic1 = rand.nextInt(StartPage.pictures.size());
-
-        do {
-            pic2 = rand.nextInt(StartPage.pictures.size());
-        } while (pic1 == pic2);
-
         btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
         btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
+        Random rand = new Random();
+        int pic1, pic2 = 0;
+        String path_btn_ans1, path_btn_ans2 = "";
 
-        //Set the chosen Pictures to the ImageButtons
-        String path_btn_ans1 = Environment.getExternalStorageDirectory()+ "/" +
-                StartPage.main_directory + "/" + StartPage.sub_directory + "/" +StartPage.pictures.get(pic1) +".jpg";
-        String path_btn_ans2 = Environment.getExternalStorageDirectory()+ "/" +
-                StartPage.main_directory + "/" + StartPage.sub_directory + "/" + StartPage.pictures.get(pic2) +".jpg";
+        if(!isRated) {
+            lbl_tutorial.setText("T");
+
+            pic1 = rand.nextInt(StartPage.tutorial_pictures.size());
+            do {
+                pic2 = rand.nextInt(StartPage.tutorial_pictures.size());
+            } while (pic1 == pic2);
+
+            //Set the chosen Pictures to the ImageButtons
+            path_btn_ans1 = Environment.getExternalStorageDirectory() + "/" +
+                    StartPage.main_directory + "/" + StartPage.sub_directory + "/Tutorial/" + StartPage.tutorial_pictures.get(pic1) + ".jpg";
+            path_btn_ans2 = Environment.getExternalStorageDirectory() + "/" +
+                    StartPage.main_directory + "/" + StartPage.sub_directory + "/Tutorial/" + StartPage.tutorial_pictures.get(pic2) + ".jpg";
+        }
+        else {
+            lbl_tutorial.setText("");
+
+            pic1 = rand.nextInt(StartPage.pictures.size());
+            do {
+                pic2 = rand.nextInt(StartPage.pictures.size());
+            } while (pic1 == pic2);
+
+            //Set the chosen Pictures to the ImageButtons
+            path_btn_ans1 = Environment.getExternalStorageDirectory() + "/" +
+                    StartPage.main_directory + "/" + StartPage.sub_directory + "/" + StartPage.pictures.get(pic1) + ".jpg";
+            path_btn_ans2 = Environment.getExternalStorageDirectory() + "/" +
+                    StartPage.main_directory + "/" + StartPage.sub_directory + "/" + StartPage.pictures.get(pic2) + ".jpg";
+        }
         Drawable draw_btn_ans1 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans1));
         Drawable draw_btn_ans2 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans2));
         btn_ans1.setImageDrawable(draw_btn_ans1);
@@ -243,12 +255,24 @@ public class QuizPage extends AppCompatActivity {
         }
 
         if(pic1 > pic2) {
-            StartPage.pictures.remove(pic1);
-            StartPage.pictures.remove(pic2);
+            if(isRated) {
+                StartPage.pictures.remove(pic1);
+                StartPage.pictures.remove(pic2);
+            }
+            else {
+                StartPage.tutorial_pictures.remove(pic1);
+                StartPage.tutorial_pictures.remove(pic2);
+            }
         }
         else {
-            StartPage.pictures.remove(pic2);
-            StartPage.pictures.remove(pic1);
+            if(isRated) {
+                StartPage.pictures.remove(pic2);
+                StartPage.pictures.remove(pic1);
+            }
+            else {
+                StartPage.tutorial_pictures.remove(pic2);
+                StartPage.tutorial_pictures.remove(pic1);
+            }
         }
 
         timer = new Timer();

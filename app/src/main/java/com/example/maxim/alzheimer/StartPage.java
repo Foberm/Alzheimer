@@ -33,13 +33,14 @@ public class StartPage extends AppCompatActivity {
     public static boolean sameUser = false;
     public static int numberOfQuestions = 10;
     public static int secondsPerQuestion = 30;
-    public static int numberOfTutorials = 1;
+    public static int numberOfTutorials = 2;
     public static String main_directory = "Alzheimer-Studie";
     public static String sub_directory = "";
     public static int sub_directoryId = 0;
     public static String outputFileName = "Auswertung_Alzheimer-Studie.csv";
     public static String instructionFile = "Instruktionen.jpg";
     public static List<String> pictures = new ArrayList<String>();
+    public static List<String> tutorial_pictures = new ArrayList<String>();
     int maxNumberOfQuestions = 0;
 
     final Calendar myCalendar = Calendar.getInstance();
@@ -84,10 +85,28 @@ public class StartPage extends AppCompatActivity {
                     }
                 }
 
+                //Scanning the available tutorials
+                String tut_filename = "";
+                File tutorialDir = new File(Environment.getExternalStorageDirectory(), "/" + main_directory + "/" + sub_directory + "/Tutorial");
+                for (File f : tutorialDir.listFiles()) {
+                    if (f.isFile()) {
+                        tut_filename = f.getName();
+                        if (tut_filename.endsWith(".jpg") && !tut_filename.equals(instructionFile)) {
+                            tut_filename = tut_filename.substring(0, (tut_filename.length() - 4));
+                            tutorial_pictures.add(tut_filename);
+                        }
+                    }
+                }
+
+                if(tutorial_pictures.size()%2 != 0)
+                    tutorial_pictures.remove(tutorial_pictures.size()-1);
+                if(tutorial_pictures.size()/2 < numberOfTutorials)
+                    numberOfTutorials = tutorial_pictures.size()/2;
+
                 if(pictures.size()%2 == 0)
-                    maxNumberOfQuestions = (pictures.size() - numberOfTutorials*2) /2 ;
+                    maxNumberOfQuestions = pictures.size() /2 ;
                 else
-                    maxNumberOfQuestions = (pictures.size()-1 - numberOfTutorials*2) /2;
+                    maxNumberOfQuestions = (pictures.size()-1) /2;
 
                 //Let User know the maximum amount of Questions possible
                 ((EditText) findViewById(R.id.numOfQuestionsInput)).setHint("Anzahl Fragen.. (Standard: 10, Maximal: " + maxNumberOfQuestions + ")");

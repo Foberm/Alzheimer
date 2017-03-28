@@ -20,7 +20,7 @@ public class InstructionPage extends AppCompatActivity {
 
         ImageView img = ((ImageView) findViewById(R.id.img_instructions));
         String path = Environment.getExternalStorageDirectory()+ "/" +
-                StartPage.main_directory + "/" + StartPage.instructionFile;
+                StartPage.main_directory + "/" + StartPage.sub_directory + "/Tutorial/" + StartPage.instructionFile;
 
         Drawable draw_img = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path));
         img.setImageDrawable(draw_img);

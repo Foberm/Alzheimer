@@ -132,7 +132,7 @@
             android:textSize="24sp"
             android:layout_weight="0.12"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:textColor="@color/common_google_signin_btn_text_dark_default" />
+            android:textColor="#fff" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -68,6 +68,9 @@ public class StartPage extends AppCompatActivity {
                 sub_directoryId = spinner.getSelectedItemPosition();
 
                 pictures.clear();
+                tutorial_pictures.clear();
+
+                numberOfTutorials = 2;
 
                 ((TextView) parent.getChildAt(0)).setTextSize(18);
 
@@ -100,8 +103,12 @@ public class StartPage extends AppCompatActivity {
 
                 if(tutorial_pictures.size()%2 != 0)
                     tutorial_pictures.remove(tutorial_pictures.size()-1);
+
                 if(tutorial_pictures.size()/2 < numberOfTutorials)
                     numberOfTutorials = tutorial_pictures.size()/2;
+
+
+
 
                 if(pictures.size()%2 == 0)
                     maxNumberOfQuestions = pictures.size() /2 ;
@@ -190,8 +197,10 @@ public class StartPage extends AppCompatActivity {
 
                 if(pictures.size() == 0)
                     showDialog("Keine Items vorhanden", "In dieser Kategorie befinden sich keine validen Items!\n\nFügen Sie unter    Gerätespeicher/Alzheimer-Studie/xx    Bilder im .JPG Format hinzu!");
-                else
+                else {
+                    if(numberOfTutorials == 0) QuizPage.isRated = true;
                     startActivity(new Intent(StartPage.this, InstructionPage.class));
+                }
             }
         });
 

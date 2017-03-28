@@ -40,7 +40,7 @@ public class QuizPage extends AppCompatActivity {
     public List<String[]> answers = new ArrayList<String[]>();
     public List<Integer> used = new ArrayList<Integer>();
 
-    boolean isRated = false;
+    public static boolean isRated = false;
     long time = 0;
     int searchedButton = 0;
     String searchedWord = "";
@@ -208,6 +208,7 @@ public class QuizPage extends AppCompatActivity {
         Random rand = new Random();
         int pic1, pic2 = 0;
         String path_btn_ans1, path_btn_ans2 = "";
+        boolean correctAnswer = rand.nextBoolean();
 
         if(!isRated) {
             lbl_tutorial.setText("T");
@@ -243,14 +244,25 @@ public class QuizPage extends AppCompatActivity {
         btn_ans2.setImageDrawable(draw_btn_ans2);
 
 
-        boolean correctAnswer = rand.nextBoolean();
-        if (correctAnswer) {
-            lbl_searchedWord.setText("" + StartPage.pictures.get(pic1).toUpperCase());
-            searchedWord = StartPage.pictures.get(pic1);
+         if(correctAnswer) {
+            if(isRated) {
+                lbl_searchedWord.setText("" + StartPage.pictures.get(pic1).toUpperCase());
+                searchedWord = StartPage.pictures.get(pic1);
+            }
+             else {
+                lbl_searchedWord.setText("" + StartPage.tutorial_pictures.get(pic1).toUpperCase());
+                searchedWord = StartPage.tutorial_pictures.get(pic1);
+            }
             searchedButton = 1;
         } else {
-            lbl_searchedWord.setText("" + StartPage.pictures.get(pic2).toUpperCase());
-            searchedWord = StartPage.pictures.get(pic2);
+             if(isRated) {
+                 lbl_searchedWord.setText("" + StartPage.pictures.get(pic2).toUpperCase());
+                 searchedWord = StartPage.pictures.get(pic2);
+             }
+             else {
+                 lbl_searchedWord.setText("" + StartPage.tutorial_pictures.get(pic2).toUpperCase());
+                 searchedWord = StartPage.tutorial_pictures.get(pic2);
+             }
             searchedButton = 2;
         }
 

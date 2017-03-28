@@ -68,6 +68,7 @@ public class ResultPage extends AppCompatActivity {
         QuizPage.numberCorrectAnswers = 0;
         QuizPage.numberSkippedAnswers = 0;
         QuizPage.numberFalseAnswers = 0;
+        QuizPage.isRated = false;
     }
 
     public void resetUser() {

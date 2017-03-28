@@ -274,6 +274,14 @@ public class StartPage extends AppCompatActivity {
         if (!directory.exists()) {
             directory.mkdirs();
         }
+
+        if(!dirName.equals(main_directory)) {
+            path = new File(Environment.getExternalStorageDirectory() + "/" + main_directory + "/" + dirName);
+            File subdir = new File(path, "Tutorial");
+            if (!subdir.exists()) {
+                subdir.mkdirs();
+            }
+        }
     }
 
     public void showDialog(String title, String msg) {

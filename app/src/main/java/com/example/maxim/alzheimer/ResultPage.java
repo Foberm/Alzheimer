@@ -21,8 +21,8 @@ public class ResultPage extends AppCompatActivity {
         setContentView(R.layout.result_page);
 
         int numberOfQuestionsDone = QuizPage.numberCorrectAnswers + QuizPage.numberSkippedAnswers + QuizPage.numberFalseAnswers;
-        long min = QuizPage.overallTime / 60;
-        long sec = QuizPage.overallTime % 60;
+        int min = Math.round(QuizPage.overallTime) / 60;
+        int sec = Math.round(QuizPage.overallTime) % 60;
 
 
         lbl_time = (TextView) findViewById(R.id.label_result_time);
@@ -62,13 +62,13 @@ public class ResultPage extends AppCompatActivity {
 
         //Reset to default
         StartPage.numberOfQuestions = 10;
-        StartPage.secondsPerQuestion = 30;
+        StartPage.numberOfTutorials = 2;
+        StartPage.secondsPerQuestion = -1;
         StartPage.sub_directory = "";
         QuizPage.overallTime = 0;
         QuizPage.numberCorrectAnswers = 0;
         QuizPage.numberSkippedAnswers = 0;
         QuizPage.numberFalseAnswers = 0;
-        QuizPage.isRated = false;
     }
 
     public void resetUser() {

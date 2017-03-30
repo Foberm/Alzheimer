@@ -39,7 +39,7 @@ public class StartPage extends AppCompatActivity {
     public static int sub_directoryId = 0;
     public static String outputFileName = "Auswertung_Alzheimer-Studie.csv";
     public static String instructionFile = "Instruktionen.jpg";
-    public static String startRatedFile = "Tutorial_Ende.jpg";
+    public static String startRatedFile = "Bewertung.jpg";
     public static List<String> pictures = new ArrayList<String>();
     public static List<String> tutorial_pictures = new ArrayList<String>();
     int maxNumberOfQuestions = 0;
@@ -89,9 +89,24 @@ public class StartPage extends AppCompatActivity {
                     }
                 }
 
+                //Scanning the available tutorials
+                String tut_filename = "";
+                File tutorialDir = new File(Environment.getExternalStorageDirectory(), "/" + main_directory + "/" + sub_directory + "/Tutorial");
+                for (File f : tutorialDir.listFiles()) {
+                    if (f.isFile()) {
+                        tut_filename = f.getName();
+                        if (tut_filename.endsWith(".jpg") && !tut_filename.equals(instructionFile) && !tut_filename.equals((startRatedFile))) {
+                            tut_filename = tut_filename.substring(0, (tut_filename.length() - 4));
+                            tutorial_pictures.add(tut_filename);
+                        }
+                    }
+                }
 
+                if(tutorial_pictures.size()%2 != 0)
+                    tutorial_pictures.remove(tutorial_pictures.size()-1);
 
-
+                if(tutorial_pictures.size()/2 < numberOfTutorials)
+                    numberOfTutorials = tutorial_pictures.size()/2;
 
 
                 if(pictures.size()%2 == 0)
@@ -103,6 +118,8 @@ public class StartPage extends AppCompatActivity {
                 ((EditText) findViewById(R.id.numOfQuestionsInput)).setHint("Anzahl Fragen.. (Standard: 10, Maximal: " + maxNumberOfQuestions + ")");
 
                 ((TextView) findViewById(R.id.lbl_itemsInCategory)).setText("Items: " + pictures.size());
+                if(tutorial_pictures.size() != 0)
+                    ((TextView) findViewById(R.id.lbl_itemsInCategory)).append(", Tutorial");
 
             }
 
@@ -142,7 +159,7 @@ public class StartPage extends AppCompatActivity {
             }
         });
 
-        //OnClick for "Beginnen"-Button
+        //OnClick for "Weiter"-Button
         findViewById(R.id.btn_ToInstructions).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,26 +199,6 @@ public class StartPage extends AppCompatActivity {
                 if(pictures.size() == 0)
                     showDialog("Keine Items vorhanden", "In dieser Kategorie befinden sich keine validen Items!\n\nFügen Sie unter    Gerätespeicher/Alzheimer-Studie/xx    Bilder im .JPG Format hinzu!");
                 else {
-
-                    //Scanning the available tutorials
-                    String tut_filename = "";
-                    File tutorialDir = new File(Environment.getExternalStorageDirectory(), "/" + main_directory + "/" + sub_directory + "/Tutorial");
-                    for (File f : tutorialDir.listFiles()) {
-                        if (f.isFile()) {
-                            tut_filename = f.getName();
-                            if (tut_filename.endsWith(".jpg") && !tut_filename.equals(instructionFile) && !tut_filename.equals((startRatedFile))) {
-                                tut_filename = tut_filename.substring(0, (tut_filename.length() - 4));
-                                tutorial_pictures.add(tut_filename);
-                            }
-                        }
-                    }
-
-                    if(tutorial_pictures.size()%2 != 0)
-                        tutorial_pictures.remove(tutorial_pictures.size()-1);
-
-                    if(tutorial_pictures.size()/2 < numberOfTutorials)
-                        numberOfTutorials = tutorial_pictures.size()/2;
-
                     Intent intent = new Intent(StartPage.this, InstructionPage.class);
                     intent.putExtra("activity","StartPage");
                     startActivity(intent);

@@ -31,7 +31,6 @@ public class TutorialPage extends AppCompatActivity {
     ImageButton btn_ans1, btn_ans2;
     TextView lbl_searchedWord, lbl_tutorial;
     int count = 0;
-    public static boolean tutorialDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class TutorialPage extends AppCompatActivity {
         findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TutorialPage.this, ResultPage.class));
+                startActivity(new Intent(TutorialPage.this, StartPage.class));
             }
         });
 
@@ -76,12 +75,12 @@ public class TutorialPage extends AppCompatActivity {
             intent.putExtra("activity","TutorialPage");
             startActivity(intent);
         }
-
-        btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
-        btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
-        Random rand = new Random();
-        boolean correctAnswer = rand.nextBoolean();
-        int pic1, pic2 = 0;
+        else {
+            btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
+            btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
+            Random rand = new Random();
+            boolean correctAnswer = rand.nextBoolean();
+            int pic1, pic2 = 0;
 
             pic1 = rand.nextInt(StartPage.tutorial_pictures.size());
             do {
@@ -94,27 +93,27 @@ public class TutorialPage extends AppCompatActivity {
             String path_btn_ans2 = Environment.getExternalStorageDirectory() + "/" +
                     StartPage.main_directory + "/" + StartPage.sub_directory + "/Tutorial/" + StartPage.tutorial_pictures.get(pic2) + ".jpg";
 
-        Drawable draw_btn_ans1 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans1));
-        Drawable draw_btn_ans2 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans2));
-        btn_ans1.setImageDrawable(draw_btn_ans1);
-        btn_ans2.setImageDrawable(draw_btn_ans2);
+            Drawable draw_btn_ans1 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans1));
+            Drawable draw_btn_ans2 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans2));
+            btn_ans1.setImageDrawable(draw_btn_ans1);
+            btn_ans2.setImageDrawable(draw_btn_ans2);
 
 
-        if(correctAnswer) {
+            if (correctAnswer) {
                 lbl_searchedWord.setText("" + StartPage.pictures.get(pic2).toUpperCase());
-            }
-            else {
+            } else {
                 lbl_searchedWord.setText("" + StartPage.tutorial_pictures.get(pic2).toUpperCase());
             }
 
-        if(pic1 > pic2) {
-            StartPage.tutorial_pictures.remove(pic1);
-            StartPage.tutorial_pictures.remove(pic2);
-        }
-        else {
-            StartPage.tutorial_pictures.remove(pic2);
-            StartPage.tutorial_pictures.remove(pic1);
+            if (pic1 > pic2) {
+                StartPage.tutorial_pictures.remove(pic1);
+                StartPage.tutorial_pictures.remove(pic2);
+            } else {
+                StartPage.tutorial_pictures.remove(pic2);
+                StartPage.tutorial_pictures.remove(pic1);
+            }
 
+            count++;
         }
     }
 }

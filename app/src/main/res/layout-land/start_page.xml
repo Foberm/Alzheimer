@@ -118,7 +118,7 @@
             android:inputType="number"
             android:ems="10"
             android:id="@+id/timePerQuestionInput"
-            android:hint="Zeit pro Frage.. (Standard: 30 sec)"
+            android:hint="Zeit pro Frage.. (Standard: Deaktiviert)"
             android:layout_weight="0.08" />
 
         <Button

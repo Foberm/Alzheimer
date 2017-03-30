@@ -34,7 +34,7 @@ public class QuizPage extends AppCompatActivity {
     public static int numberCorrectAnswers = 0;
     public static int numberFalseAnswers = 0;
     public static int numberSkippedAnswers = 0;
-    public static long overallTime = 0;
+    public static float overallTime = 0;
 
 
     public List<String[]> answers = new ArrayList<String[]>();
@@ -42,23 +42,26 @@ public class QuizPage extends AppCompatActivity {
     long time = 0;
     int searchedButton = 0;
     String searchedWord = "";
+    boolean timerActive = (StartPage.secondsPerQuestion != -1);
 
-    private class Timer extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                Thread.sleep(1000 * StartPage.secondsPerQuestion);
-            } catch (InterruptedException e) {
-                Thread.interrupted();
+        private class Timer extends AsyncTask<String, Void, String> {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    if(timerActive)
+                        Thread.sleep(1000 * StartPage.secondsPerQuestion);
+                } catch (InterruptedException e) {
+                    Thread.interrupted();
+                }
+                return "Executed";
             }
-            return "Executed";
+
+            @Override
+            protected void onPostExecute(String result) {
+                writeToAnswers(0);
+            }
         }
-        @Override
-        protected void onPostExecute(String result) {
-            writeToAnswers(0);
-        }
-    }
 
     Timer timer;
 
@@ -102,10 +105,9 @@ public class QuizPage extends AppCompatActivity {
         String[] tmp = new String[3];
         String searchedWordUpperCase = searchedWord.substring(0, 1).toUpperCase() + searchedWord.substring(1);
         tmp[0] = searchedWordUpperCase;
-        long timeUsed = ((System.currentTimeMillis() - time) / 1000);
+        double timeUsed = ((System.currentTimeMillis() - time) /1000.0);
         overallTime += timeUsed;
-
-            timer.cancel(true);
+        if(timerActive) timer.cancel(true);
 
         switch (state) {
             case -1:
@@ -133,7 +135,6 @@ public class QuizPage extends AppCompatActivity {
 
         //Finished
         if(answers.size() == StartPage.numberOfQuestions || state == -1){
-            timer.cancel(true);
             writeToOutputFile();
             answers.clear();
             startActivity(new Intent(QuizPage.this, ResultPage.class));
@@ -156,8 +157,6 @@ public class QuizPage extends AppCompatActivity {
 
             FileOutputStream fOut = new FileOutputStream(outputFile, true);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
-
-            Log.e("a", timeFormat.format(new Date()));
 
             osw.append('\n');
             osw.append(dateFormat.format(c.getTime()));
@@ -236,7 +235,7 @@ public class QuizPage extends AppCompatActivity {
             StartPage.pictures.remove(pic1);
         }
 
-        if(StartPage.secondsPerQuestion != -1) {
+        if(timerActive) {
             timer = new Timer();
             timer.execute("");
         }

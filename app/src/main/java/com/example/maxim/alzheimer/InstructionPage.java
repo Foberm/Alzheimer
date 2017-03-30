@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,15 +23,15 @@ public class InstructionPage extends AppCompatActivity {
 
         ImageView img = ((ImageView) findViewById(R.id.img_instructions));
         String path = Environment.getExternalStorageDirectory()+ "/" +
-                StartPage.main_directory + "/" + StartPage.sub_directory + "/Tutorial/";
+                StartPage.main_directory + "/";
 
         Intent intent = getIntent();
         activity = intent.getStringExtra("activity");
 
         if(activity.equals("StartPage"))
-            path += StartPage.instructionFile;
+            path = path + StartPage.sub_directory + "/Tutorial/" + StartPage.instructionFile;
         else
-            path +=  StartPage.startRatedFile;
+            path = path + StartPage.startRatedFile;
 
         Drawable draw_img = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path));
         img.setImageDrawable(draw_img);
@@ -39,7 +40,7 @@ public class InstructionPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(activity.equals("StartPage")) {
-                    if (StartPage.numberOfTutorials == 0)
+                    if (StartPage.numberOfTutorials != 0)
                         startActivity(new Intent(InstructionPage.this, TutorialPage.class));
                     else
                         startActivity(new Intent(InstructionPage.this, QuizPage.class));

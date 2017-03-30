@@ -3,13 +3,11 @@ package com.example.maxim.alzheimer;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,7 +37,7 @@ public class StartPage extends AppCompatActivity {
     public static int sub_directoryId = 0;
     public static String outputFileName = "Auswertung_Alzheimer-Studie.csv";
     public static String instructionFile = "Instruktionen.jpg";
-    public static String startRatedFile = "Bewertung.jpg";
+    public static String informationFile = "Bewertung.jpg";
     public static List<String> pictures = new ArrayList<String>();
     public static List<String> tutorial_pictures = new ArrayList<String>();
     int maxNumberOfQuestions = 0;
@@ -95,7 +93,7 @@ public class StartPage extends AppCompatActivity {
                 for (File f : tutorialDir.listFiles()) {
                     if (f.isFile()) {
                         tut_filename = f.getName();
-                        if (tut_filename.endsWith(".jpg") && !tut_filename.equals(instructionFile) && !tut_filename.equals((startRatedFile))) {
+                        if (tut_filename.endsWith(".jpg") && !tut_filename.equals(instructionFile) && !tut_filename.equals((informationFile))) {
                             tut_filename = tut_filename.substring(0, (tut_filename.length() - 4));
                             tutorial_pictures.add(tut_filename);
                         }

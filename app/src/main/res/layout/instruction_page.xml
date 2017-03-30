@@ -14,9 +14,10 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@color/colorPrimary"
+            app:srcCompat="@android:color/transparent"
             android:layout_weight="0.90"
-            android:id="@+id/img_instructions" />
+            android:id="@+id/img_instructions"
+            android:background="@android:color/transparent" />
 
         <Button
             android:text="Beginnen"
@@ -27,7 +28,7 @@
             android:layout_weight="0.10"
             android:textSize="24sp"
             android:textColor="#fff" />
-
     </LinearLayout>
+
 
 </RelativeLayout>

@@ -7,9 +7,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.io.FileNotFoundException;
 
 
 public class InstructionPage extends AppCompatActivity {
@@ -31,7 +33,7 @@ public class InstructionPage extends AppCompatActivity {
         if(activity.equals("StartPage"))
             path = path + StartPage.sub_directory + "/Tutorial/" + StartPage.instructionFile;
         else
-            path = path + StartPage.startRatedFile;
+            path = path + StartPage.informationFile;
 
         Drawable draw_img = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path));
         img.setImageDrawable(draw_img);

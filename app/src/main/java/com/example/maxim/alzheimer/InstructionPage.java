@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,11 @@ public class InstructionPage extends AppCompatActivity {
 
         Drawable draw_img = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path));
         img.setImageDrawable(draw_img);
+
+        if(StartPage.numberOfTutorials != 0 && activity.equals("StartPage"))
+            ((Button)findViewById(R.id.btn_StartRun)).setText("Weiter");
+        else
+            ((Button)findViewById(R.id.btn_StartRun)).setText("Beginnen");
 
         findViewById(R.id.btn_StartRun).setOnClickListener(new View.OnClickListener() {
             @Override

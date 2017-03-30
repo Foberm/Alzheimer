@@ -21,6 +21,8 @@ public class ResultPage extends AppCompatActivity {
         setContentView(R.layout.result_page);
 
         int numberOfQuestionsDone = QuizPage.numberCorrectAnswers + QuizPage.numberSkippedAnswers + QuizPage.numberFalseAnswers;
+        //Avoiding division with zero
+        if(numberOfQuestionsDone == 0) numberOfQuestionsDone++;
         int min = Math.round(QuizPage.overallTime) / 60;
         int sec = Math.round(QuizPage.overallTime) % 60;
 

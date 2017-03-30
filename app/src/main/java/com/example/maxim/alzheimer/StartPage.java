@@ -37,7 +37,7 @@ public class StartPage extends AppCompatActivity {
     public static int sub_directoryId = 0;
     public static String outputFileName = "Auswertung_Alzheimer-Studie.csv";
     public static String instructionFile = "Instruktionen.jpg";
-    public static String informationFile = "Bewertung.jpg";
+    public static String informationFile = "Start-Hinweis.jpg";
     public static List<String> pictures = new ArrayList<String>();
     public static List<String> tutorial_pictures = new ArrayList<String>();
     int maxNumberOfQuestions = 0;

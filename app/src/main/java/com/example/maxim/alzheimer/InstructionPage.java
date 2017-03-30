@@ -13,6 +13,8 @@ import android.widget.ImageView;
 
 public class InstructionPage extends AppCompatActivity {
 
+    String activity = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +22,15 @@ public class InstructionPage extends AppCompatActivity {
 
         ImageView img = ((ImageView) findViewById(R.id.img_instructions));
         String path = Environment.getExternalStorageDirectory()+ "/" +
-                StartPage.main_directory + "/" + StartPage.sub_directory + "/Tutorial/" + StartPage.instructionFile;
+                StartPage.main_directory + "/" + StartPage.sub_directory + "/Tutorial/";
+
+        Intent intent = getIntent();
+        activity = intent.getStringExtra("activity");
+
+        if(activity.equals("StartPage"))
+            path += StartPage.instructionFile;
+        else
+            path +=  StartPage.startRatedFile;
 
         Drawable draw_img = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path));
         img.setImageDrawable(draw_img);
@@ -28,9 +38,16 @@ public class InstructionPage extends AppCompatActivity {
         findViewById(R.id.btn_StartRun).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(InstructionPage.this, QuizPage.class));
-            }
-        });
+                if(activity.equals("StartPage")) {
+                    if (StartPage.numberOfTutorials == 0)
+                        startActivity(new Intent(InstructionPage.this, TutorialPage.class));
+                    else
+                        startActivity(new Intent(InstructionPage.this, QuizPage.class));
+                }
+                else
+                    startActivity(new Intent(InstructionPage.this, QuizPage.class));
+                }
+            });
 
 
     }

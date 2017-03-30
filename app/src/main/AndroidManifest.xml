@@ -31,6 +31,14 @@
         </activity>
 
         <activity
+            android:name=".TutorialPage"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Alzheimer-Studie Tutorial"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".ResultPage"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Alzheimer-Studie Auswertung"

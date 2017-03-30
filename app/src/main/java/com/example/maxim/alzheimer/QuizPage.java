@@ -29,7 +29,7 @@ import java.util.Random;
 public class QuizPage extends AppCompatActivity {
 
     ImageButton btn_ans1, btn_ans2;
-    TextView lbl_searchedWord, lbl_tutorial;
+    TextView lbl_searchedWord;
 
     public static int numberCorrectAnswers = 0;
     public static int numberFalseAnswers = 0;
@@ -38,9 +38,7 @@ public class QuizPage extends AppCompatActivity {
 
 
     public List<String[]> answers = new ArrayList<String[]>();
-    public List<Integer> used = new ArrayList<Integer>();
 
-    public static boolean isRated = false;
     long time = 0;
     int searchedButton = 0;
     String searchedWord = "";
@@ -72,12 +70,11 @@ public class QuizPage extends AppCompatActivity {
         btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
         btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
         lbl_searchedWord = (TextView) findViewById(R.id.label_word);
-        lbl_tutorial = (TextView) findViewById(R.id.label_tutorial);
 
         findViewById(R.id.btn_answer1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(searchedButton == 1)writeToAnswers(1);
+                if(searchedButton == 1) writeToAnswers(1);
                 else writeToAnswers(2);
             }
         });
@@ -85,7 +82,7 @@ public class QuizPage extends AppCompatActivity {
         findViewById(R.id.btn_answer2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(searchedButton == 2)writeToAnswers(1);
+                if(searchedButton == 2) writeToAnswers(1);
                 else writeToAnswers(2);
             }
         });
@@ -106,7 +103,7 @@ public class QuizPage extends AppCompatActivity {
         String searchedWordUpperCase = searchedWord.substring(0, 1).toUpperCase() + searchedWord.substring(1);
         tmp[0] = searchedWordUpperCase;
         long timeUsed = ((System.currentTimeMillis() - time) / 1000);
-        if(isRated) overallTime += timeUsed;
+        overallTime += timeUsed;
 
             timer.cancel(true);
 
@@ -118,33 +115,27 @@ public class QuizPage extends AppCompatActivity {
             case 0:
                 tmp[1] = "NB";
                 tmp[2] = "" + timeUsed;
-                if(isRated) numberSkippedAnswers++;
+                numberSkippedAnswers++;
 
                 break;
             case 1:
                 tmp[1] = "Richtig";
                 tmp[2] = "" + timeUsed;
-                if(isRated) numberCorrectAnswers++;
+                numberCorrectAnswers++;
                 break;
             case 2:
                 tmp[1] = "Falsch";
                 tmp[2] = "" + timeUsed;
-                if(isRated) numberFalseAnswers++;
+                numberFalseAnswers++;
                 break;
         }
         answers.add(tmp);
 
-        //Tutorial
-        if (answers.size() == StartPage.numberOfTutorials && !isRated) {
-            answers.clear();
-            isRated = true;
-        }
         //Finished
-        if(answers.size() == StartPage.numberOfQuestions && isRated || state == -1){
+        if(answers.size() == StartPage.numberOfQuestions || state == -1){
             timer.cancel(true);
             writeToOutputFile();
             answers.clear();
-            isRated = false;
             startActivity(new Intent(QuizPage.this, ResultPage.class));
         }
         else newWord();
@@ -200,32 +191,13 @@ public class QuizPage extends AppCompatActivity {
     }
 
 
-    //Timer timer = new Timer();
     public synchronized void newWord() {
 
         btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
         btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
         Random rand = new Random();
         int pic1, pic2 = 0;
-        String path_btn_ans1, path_btn_ans2 = "";
         boolean correctAnswer = rand.nextBoolean();
-
-        if(!isRated) {
-            lbl_tutorial.setText("T");
-
-            pic1 = rand.nextInt(StartPage.tutorial_pictures.size());
-            do {
-                pic2 = rand.nextInt(StartPage.tutorial_pictures.size());
-            } while (pic1 == pic2);
-
-            //Set the chosen Pictures to the ImageButtons
-            path_btn_ans1 = Environment.getExternalStorageDirectory() + "/" +
-                    StartPage.main_directory + "/" + StartPage.sub_directory + "/Tutorial/" + StartPage.tutorial_pictures.get(pic1) + ".jpg";
-            path_btn_ans2 = Environment.getExternalStorageDirectory() + "/" +
-                    StartPage.main_directory + "/" + StartPage.sub_directory + "/Tutorial/" + StartPage.tutorial_pictures.get(pic2) + ".jpg";
-        }
-        else {
-            lbl_tutorial.setText("");
 
             pic1 = rand.nextInt(StartPage.pictures.size());
             do {
@@ -233,11 +205,11 @@ public class QuizPage extends AppCompatActivity {
             } while (pic1 == pic2);
 
             //Set the chosen Pictures to the ImageButtons
-            path_btn_ans1 = Environment.getExternalStorageDirectory() + "/" +
+            String path_btn_ans1 = Environment.getExternalStorageDirectory() + "/" +
                     StartPage.main_directory + "/" + StartPage.sub_directory + "/" + StartPage.pictures.get(pic1) + ".jpg";
-            path_btn_ans2 = Environment.getExternalStorageDirectory() + "/" +
+            String path_btn_ans2 = Environment.getExternalStorageDirectory() + "/" +
                     StartPage.main_directory + "/" + StartPage.sub_directory + "/" + StartPage.pictures.get(pic2) + ".jpg";
-        }
+
         Drawable draw_btn_ans1 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans1));
         Drawable draw_btn_ans2 = new BitmapDrawable(getResources(), BitmapFactory.decodeFile(path_btn_ans2));
         btn_ans1.setImageDrawable(draw_btn_ans1);
@@ -245,50 +217,29 @@ public class QuizPage extends AppCompatActivity {
 
 
          if(correctAnswer) {
-            if(isRated) {
                 lbl_searchedWord.setText("" + StartPage.pictures.get(pic1).toUpperCase());
                 searchedWord = StartPage.pictures.get(pic1);
-            }
-             else {
-                lbl_searchedWord.setText("" + StartPage.tutorial_pictures.get(pic1).toUpperCase());
-                searchedWord = StartPage.tutorial_pictures.get(pic1);
-            }
-            searchedButton = 1;
-        } else {
-             if(isRated) {
-                 lbl_searchedWord.setText("" + StartPage.pictures.get(pic2).toUpperCase());
-                 searchedWord = StartPage.pictures.get(pic2);
-             }
-             else {
-                 lbl_searchedWord.setText("" + StartPage.tutorial_pictures.get(pic2).toUpperCase());
-                 searchedWord = StartPage.tutorial_pictures.get(pic2);
-             }
+             searchedButton = 1;
+         }
+         else {
+            lbl_searchedWord.setText("" + StartPage.pictures.get(pic2).toUpperCase());
+            searchedWord = StartPage.pictures.get(pic2);
             searchedButton = 2;
-        }
+         }
 
         if(pic1 > pic2) {
-            if(isRated) {
-                StartPage.pictures.remove(pic1);
-                StartPage.pictures.remove(pic2);
-            }
-            else {
-                StartPage.tutorial_pictures.remove(pic1);
-                StartPage.tutorial_pictures.remove(pic2);
-            }
+            StartPage.pictures.remove(pic1);
+            StartPage.pictures.remove(pic2);
         }
         else {
-            if(isRated) {
-                StartPage.pictures.remove(pic2);
-                StartPage.pictures.remove(pic1);
-            }
-            else {
-                StartPage.tutorial_pictures.remove(pic2);
-                StartPage.tutorial_pictures.remove(pic1);
-            }
+            StartPage.pictures.remove(pic2);
+            StartPage.pictures.remove(pic1);
         }
 
-        timer = new Timer();
-        timer.execute("");
+        if(StartPage.secondsPerQuestion != -1) {
+            timer = new Timer();
+            timer.execute("");
+        }
         time = System.currentTimeMillis();
     }
 }

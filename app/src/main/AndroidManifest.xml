@@ -5,7 +5,7 @@
     <application
 
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/simple_a"
         android:label="Alzheimer-Studie"
         android:launchMode="standard"
         android:supportsRtl="true"

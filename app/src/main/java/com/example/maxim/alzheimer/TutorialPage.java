@@ -100,7 +100,7 @@ public class TutorialPage extends AppCompatActivity {
 
 
             if (correctAnswer) {
-                lbl_searchedWord.setText("" + StartPage.pictures.get(pic2).toUpperCase());
+                lbl_searchedWord.setText("" + StartPage.tutorial_pictures.get(pic1).toUpperCase());
             } else {
                 lbl_searchedWord.setText("" + StartPage.tutorial_pictures.get(pic2).toUpperCase());
             }

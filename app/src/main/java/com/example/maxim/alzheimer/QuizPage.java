@@ -192,8 +192,6 @@ public class QuizPage extends AppCompatActivity {
 
     public synchronized void newWord() {
 
-        btn_ans1 = (ImageButton) findViewById(R.id.btn_answer1);
-        btn_ans2 = (ImageButton) findViewById(R.id.btn_answer2);
         Random rand = new Random();
         int pic1, pic2 = 0;
         boolean correctAnswer = rand.nextBoolean();
@@ -216,8 +214,8 @@ public class QuizPage extends AppCompatActivity {
 
 
          if(correctAnswer) {
-                lbl_searchedWord.setText("" + StartPage.pictures.get(pic1).toUpperCase());
-                searchedWord = StartPage.pictures.get(pic1);
+             lbl_searchedWord.setText("" + StartPage.pictures.get(pic1).toUpperCase());
+             searchedWord = StartPage.pictures.get(pic1);
              searchedButton = 1;
          }
          else {

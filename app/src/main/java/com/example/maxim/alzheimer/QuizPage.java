@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -98,6 +99,11 @@ public class QuizPage extends AppCompatActivity {
         });
 
         newWord();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Blocking the hardware Back-Button
     }
 
 

@@ -60,4 +60,9 @@ public class InstructionPage extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        //Blocking the hardware Back-Button
+    }
 }

@@ -208,6 +208,11 @@ public class StartPage extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        //Blocking the hardware Back-Button
+    }
+
     public void updateDateLabel() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");

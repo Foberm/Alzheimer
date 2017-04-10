@@ -55,12 +55,16 @@ public class ResultPage extends AppCompatActivity {
             }
         });
 
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        //Blocking the hardware Back-Button
     }
 
     public void resetDefaultVariables() {
         StartPage.pictures.clear();
+        StartPage.tutorial_pictures.clear();
 
         //Reset to default
         StartPage.numberOfQuestions = 10;

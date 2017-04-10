@@ -67,6 +67,11 @@ public class TutorialPage extends AppCompatActivity {
         newWord();
     }
 
+    @Override
+    public void onBackPressed() {
+        //Blocking the hardware Back-Button
+    }
+
 
     public void newWord() {
 
